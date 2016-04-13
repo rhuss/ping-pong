@@ -21,7 +21,7 @@ enum Stroke {
         if (strength * Math.random() > 0.5) {
             return HIT;
         };
-        return Math.random() > 0.5 ? MISSED : OUT;
+        return strength * Math.random() > 0.5 ? OUT : MISSED;
     }
 
     abstract String getReason(PingPong who);

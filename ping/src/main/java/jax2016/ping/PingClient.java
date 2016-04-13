@@ -11,13 +11,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ansi.AnsiColor;
-import org.springframework.boot.ansi.AnsiElement;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.stereotype.Component;
 
 import static jax2016.ping.PingPong.*;
 import static jax2016.ping.Stroke.*;
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @Component
 public class PingClient implements Runnable {
@@ -32,6 +30,9 @@ public class PingClient implements Runnable {
 
     @Value("${port}")
     private String port;
+
+    @Value("${strength}")
+    private int strength;
 
     private String getBaseUrl() {
         return "http://" + host + ":" + port;
@@ -52,28 +53,24 @@ public class PingClient implements Runnable {
         try {
             while (true) {
                 try {
-
-                    log(AnsiColor.RED," ==== Start Game ==============");
                     int nrStrokes = 0;
                     GameResult result = null;
+
+                    logStart();
                     while (result == null) {
                         nrStrokes++;
+                        // Send HTTP request to PONG
                         Stroke stroke = request(getBaseUrl() + "/ping/" + id);
-                        result = checkResult(nrStrokes, PONG, stroke);
-                        if (result == null) {
-                            result = checkResult(nrStrokes, PING, Stroke.play(5));
-                        }
 
-                        System.out.print(".");
+                        // Evaluate stroke and decide on next action
+                        result = evaluateStroke(nrStrokes, stroke);
+                        logDot();
                     }
-                    System.out.println();
-                    log(AnsiColor.GREEN, " Result " + result);
-                    log(AnsiColor.RED, " ==== End Game ================");
+                    logEnd(result);
 
-                    Thread.sleep((long) (Math.random() * 1000 * 5));
+                    waitABit();
                 } catch (ConnectException exp) {
-                    log(AnsiColor.YELLOW, "No connection. Waiting 5 seconds ...");
-                    Thread.sleep(5000);
+                    waitForNextTry();
                 }
             }
         } catch (InterruptedException | IOException e) {
@@ -81,23 +78,22 @@ public class PingClient implements Runnable {
         }
     }
 
-    private void log(AnsiColor color, String txt) {
-        System.out.println(AnsiOutput.toString(AnsiColor.BLUE,"[",id,"] ",color, txt));
+    private GameResult evaluateStroke(int nrStrokes, Stroke stroke) {
+        GameResult result = checkResult(nrStrokes, PONG, stroke);
+        if (result == null) {
+            result = checkResult(nrStrokes, PING, Stroke.play(strength));
+        }
+        return result;
     }
 
     private GameResult checkResult(int nrStrokes, PingPong who, Stroke stroke) {
         if (stroke == MISSED) {
-            return new GameResult(nrStrokes, who.theOther(), stroke);
+            return new GameResult(id, nrStrokes, who.theOther(), stroke);
         } else if (stroke == OUT) {
-            return new GameResult(nrStrokes, who, stroke);
+            return new GameResult(id, nrStrokes, who, stroke);
         } else {
             return null;
         }
-    }
-
-    private String createId() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString().substring(0,8);
     }
 
     private Stroke request(String url) throws IOException {
@@ -108,5 +104,59 @@ public class PingClient implements Runnable {
         Response response = client.newCall(request).execute();
         return Stroke.valueOf(response.body().string().toUpperCase());
     }
+
+    private void waitForNextTry() throws InterruptedException {
+        nl();
+        log(AnsiColor.YELLOW, "No connection. Waiting 5 seconds ...");
+        Thread.sleep(5000);
+    }
+
+    private void waitABit() throws InterruptedException {
+        Thread.sleep((long) (Math.random() * 1000 * 5));
+    }
+
+
+    private String createId() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString().substring(0,8);
+    }
+
+    // ================================================================================
+    // Pretty print
+
+    private void nl() {
+        System.out.println();
+    }
+
+    private void log(AnsiColor color, String txt) {
+        System.out.println(formatLogMsg(color, txt));
+    }
+
+    private void logPref() {
+        System.out.print(AnsiOutput.toString(AnsiColor.BLUE, "[", id, "] "));
+        System.out.flush();
+    }
+
+    private void logStart() {
+        log(AnsiColor.RED, "==== Start Game ==============");
+        logPref();
+    }
+
+    private void logEnd(GameResult result) {
+        System.out.println();
+        log(AnsiColor.GREEN, result.toString());
+        log(AnsiColor.RED, "==== End Game ================");
+    }
+
+    private void logDot() {
+        System.out.print(AnsiOutput.toString(AnsiColor.CYAN, "."));
+        System.out.flush();
+    }
+
+    private String formatLogMsg(AnsiColor color, String txt) {
+        return AnsiOutput.toString(AnsiColor.BLUE, "[", id, "] ", color, txt);
+    }
+
+
 
 }
