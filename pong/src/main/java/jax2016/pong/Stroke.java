@@ -1,13 +1,13 @@
 package jax2016.pong;
 
-public enum Event {
-    PONG,
+enum Stroke {
+    HIT,
     MISSED,
     OUT;
 
-    static Event play(int strength) {
+    static Stroke play(int strength) {
         if (strength * Math.random() > 0.5) {
-            return PONG;
+            return HIT;
         };
         return Math.random() > 0.5 ? MISSED : OUT;
     }
