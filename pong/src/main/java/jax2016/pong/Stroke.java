@@ -5,6 +5,7 @@ enum Stroke {
     MISSED,
     OUT;
 
+    // very simplistic gameplay
     static Stroke play(int strength) {
         if (strength * Math.random() > 0.5) {
             return HIT;
