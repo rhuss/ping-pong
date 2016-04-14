@@ -2,7 +2,7 @@ package jax2016.pong;
 
 import javax.ws.rs.*;
 
-@Path("/ping/{id}")
+@Path("/pong/{id}")
 public class PongEndpoint {
 
     // ==================================================================================

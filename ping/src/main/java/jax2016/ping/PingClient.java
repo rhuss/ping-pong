@@ -25,17 +25,20 @@ public class PingClient implements Runnable {
     // ==================================================================================
     // Configuration
 
-    @Value("${host}")
+    @Value("${host:localhost}")
     private String host;
 
-    @Value("${port}")
+    @Value("${port:8080}")
     private String port;
 
-    @Value("${strength}")
+    @Value("${strength:2}")
     private int strength;
 
-    private String getBaseUrl() {
-        return "http://" + host + ":" + port;
+    @Value("${context:pong}")
+    private int context;
+
+    private String getUrl() {
+        return "http://" + host + ":" + port + "/" + context ;
     }
 
     // ====================================================================================
@@ -60,7 +63,7 @@ public class PingClient implements Runnable {
                     while (result == null) {
                         nrStrokes++;
                         // Send HTTP request to PONG
-                        Stroke stroke = request(getBaseUrl() + "/ping/" + id);
+                        Stroke stroke = request(getUrl() + "/" + id);
 
                         // Evaluate stroke and decide on next action
                         result = evaluateStroke(nrStrokes, stroke);
