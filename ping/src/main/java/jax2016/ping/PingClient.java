@@ -2,6 +2,7 @@ package jax2016.ping;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +36,7 @@ public class PingClient implements Runnable {
     private int strength;
 
     @Value("${context:pong}")
-    private int context;
+    private String context;
 
     private String getUrl() {
         return "http://" + host + ":" + port + "/" + context ;
@@ -72,7 +73,7 @@ public class PingClient implements Runnable {
                     logEnd(result);
 
                     waitABit();
-                } catch (ConnectException exp) {
+                } catch (ConnectException | SocketTimeoutException exp) {
                     waitForNextTry();
                 }
             }
