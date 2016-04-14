@@ -32,12 +32,6 @@
               <alias>ping</alias>
               <run>
                 <net>container:pong</net>
-                <wait>
-                  <http>
-                    <url>http://localhost:8080/pong/1</url>
-                  </http>
-                  <time>360000</time>
-                </wait>
               </run>
             </image>
           </images>
