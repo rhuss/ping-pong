@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>jax2016</groupId>
@@ -14,4 +14,35 @@
     <module>ping</module>
     <module>pong</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.14.2</version>
+        <configuration>
+          <images>
+            <image>
+              <name>rhuss/jax2016-pong</name>
+              <alias>pong</alias>
+            </image>
+            <image>
+              <name>rhuss/jax2016-ping</name>
+              <alias>ping</alias>
+              <run>
+                <net>container:pong</net>
+                <wait>
+                  <http>
+                    <url>http://localhost:8080/pong/1</url>
+                  </http>
+                  <time>360000</time>
+                </wait>
+              </run>
+            </image>
+          </images>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

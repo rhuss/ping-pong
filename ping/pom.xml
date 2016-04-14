@@ -20,6 +20,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
+    <!-- ARM alternative: hypriot/rpi-java -->
+    <dmp.from>java:8-jre-alpine</dmp.from>
   </properties>
 
   <dependencies>
@@ -38,6 +40,30 @@
 
   <build>
     <plugins>
+
+       <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.14.2</version>
+        <configuration>
+          <images>
+            <image>
+              <name>rhuss/jax2016-ping</name>
+              <build>
+                <from>${dmp.from}</from>
+                <cmd><shell>java -jar /maven/ping-${project.version}.jar</shell></cmd>
+                <env>
+                </env>
+                <assembly>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+              </build>
+              <!-- Don't run when called from parent -->
+              <run><skip>true</skip></run>
+            </image>
+          </images>
+        </configuration>
+      </plugin>
 
       <plugin>
         <groupId>org.springframework.boot</groupId>
