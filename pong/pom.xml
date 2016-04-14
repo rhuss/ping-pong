@@ -14,6 +14,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <dmp.from>java:8-jre-alpine</dmp.from>
   </properties>
 
   <dependencyManagement>
@@ -32,6 +33,39 @@
     <finalName>pong</finalName>
 
     <plugins>
+
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.14.2</version>
+        <configuration>
+          <images>
+            <image>
+              <name>rhuss/jax2016-pong</name>
+              <build>
+                <from>${dmp.from}</from>
+                <cmd><shell>java -jar /maven/pong-swarm.jar</shell></cmd>
+                <ports>
+                  <port>8080</port>
+                </ports>
+                <env>
+                  <PONG_STRENGTH>5</PONG_STRENGTH>
+                </env>
+                <assembly>
+                  <inline>
+                    <files>
+                      <file>
+                        <source>${project.build.directory}/pong-swarm.jar</source>
+                      </file>
+                    </files>
+                  </inline>
+                </assembly>
+              </build>
+            </image>
+          </images>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.wildfly.swarm</groupId>
         <artifactId>wildfly-swarm-plugin</artifactId>
