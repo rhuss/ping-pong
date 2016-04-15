@@ -15,7 +15,7 @@ import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.stereotype.Component;
 
-import static jax2016.ping.PingPong.*;
+import static jax2016.ping.Player.*;
 import static jax2016.ping.Stroke.*;
 
 @Component
@@ -26,20 +26,23 @@ public class PingClient implements Runnable {
     // ==================================================================================
     // Configuration
 
-    @Value("${host:localhost}")
+    @Value("${HOST:localhost}")
     private String host;
 
-    @Value("${port:8080}")
+    @Value("${PORT:8080}")
     private String port;
 
-    @Value("${strength:2}")
+    @Value("${STRENGTH:2}")
     private int strength;
 
-    @Value("${context:pong}")
-    private String context;
+    @Value("${OPPONENT:pong}")
+    private String opponent;
+
+    @Value("${WAIT_MAX_SECONDS:5}")
+    private int waitMaxSeconds;
 
     private String getUrl() {
-        return "http://" + host + ":" + port + "/" + context ;
+        return "http://" + host + ":" + port + "/" + opponent;
     }
 
     // ====================================================================================
@@ -72,7 +75,7 @@ public class PingClient implements Runnable {
                     }
                     logEnd(result);
 
-                    waitABit();
+                    waitABit(waitMaxSeconds);
                 } catch (ConnectException | SocketTimeoutException exp) {
                     waitForNextTry();
                 }
@@ -83,18 +86,18 @@ public class PingClient implements Runnable {
     }
 
     private GameResult evaluateStroke(int nrStrokes, Stroke stroke) {
-        GameResult result = checkResult(nrStrokes, PONG, stroke);
+        GameResult result = checkResult(nrStrokes, new Player(opponent, Player.PING), stroke);
         if (result == null) {
-            result = checkResult(nrStrokes, PING, Stroke.play(strength));
+            result = checkResult(nrStrokes, new Player(Player.PING, opponent), Stroke.play(strength));
         }
         return result;
     }
 
-    private GameResult checkResult(int nrStrokes, PingPong who, Stroke stroke) {
+    private GameResult checkResult(int nrStrokes, Player who, Stroke stroke) {
         if (stroke == MISSED) {
-            return new GameResult(id, nrStrokes, who.theOther(), stroke);
+            return new GameResult(id, nrStrokes, who.getOpponent(), who.getPlayer(), stroke);
         } else if (stroke == OUT) {
-            return new GameResult(id, nrStrokes, who, stroke);
+            return new GameResult(id, nrStrokes, who.getPlayer(), who.getOpponent(), stroke);
         } else {
             return null;
         }
@@ -115,8 +118,8 @@ public class PingClient implements Runnable {
         Thread.sleep(5000);
     }
 
-    private void waitABit() throws InterruptedException {
-        Thread.sleep((long) (Math.random() * 1000 * 5));
+    private void waitABit(int secsMax) throws InterruptedException {
+        Thread.sleep((long) (Math.random() * 1000 * secsMax));
     }
 
 
