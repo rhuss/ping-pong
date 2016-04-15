@@ -13,6 +13,7 @@
   <modules>
     <module>ping</module>
     <module>pong</module>
+    <module>peng</module>
   </modules>
 
   <build>
@@ -39,4 +40,36 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>peng</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <configuration>
+              <images>
+                <image>
+                  <name>rhuss/jax2016-peng</name>
+                  <alias>peng</alias>
+                </image>
+                <image>
+                  <name>rhuss/jax2016-ping</name>
+                  <alias>ping</alias>
+                  <run>
+                    <env>
+                      <OPPONENT>peng</OPPONENT>
+                    </env>
+                    <net>container:peng</net>
+                  </run>
+                </image>
+              </images>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
