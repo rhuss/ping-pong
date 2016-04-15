@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pong
+  name: ping
   labels:
-    name: pong
+    name: ping
     project: ping-pong-peng
     version: "1"
 spec:
   containers:
-  - image: rhuss/jax2016-pong:1
-    name: pong
+  - image: rhuss/jax2016-ping:1
+    name: ping
     ports:
     - containerPort: 8080

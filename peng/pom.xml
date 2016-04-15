@@ -5,7 +5,7 @@
 
   <groupId>jax2016</groupId>
   <artifactId>peng</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1</version>
   <packaging>jar</packaging>
 
   <name>peng</name>
@@ -41,7 +41,7 @@
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-peng</name>
+              <name>rhuss/jax2016-peng:${project.version}</name>
               <build>
                 <from>${dmp.from}</from>
                 <cmd><shell>java -jar /maven/${project.build.finalName}.jar</shell></cmd>

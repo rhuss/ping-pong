@@ -2,14 +2,16 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    project: pong
-    version: 1
+    name: pong
+    project: ping-pong-peng
+    version: "1"
   name: pong
 spec:
+  selector:
+    name: pong
+    project: ping-pong-peng
+  ports:
   - port: 8080
     targetPort: 8080
     nodePort: 33333
-selector:
-  labels:
-    project: pong
-type: NodePort
+  type: NodePort

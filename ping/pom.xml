@@ -5,7 +5,7 @@
 
   <groupId>jax2016</groupId>
   <artifactId>ping</artifactId>
-  <version>0.0.1</version>
+  <version>1</version>
   <packaging>jar</packaging>
 
   <name>ping</name>
@@ -35,7 +35,6 @@
       <artifactId>okhttp</artifactId>
       <version>3.2.0</version>
     </dependency>
-
   </dependencies>
 
   <build>
@@ -48,7 +47,7 @@
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-ping</name>
+              <name>rhuss/jax2016-ping:${project.version}</name>
               <build>
                 <from>${dmp.from}</from>
                 <cmd><shell>java -jar /maven/${project.build.finalName}.jar</shell></cmd>
