@@ -5,15 +5,15 @@ class GameResult {
     private final String id;
     private final String reason;
     private final int strokes;
-    private final PingPong winner;
+    private final String winner;
     private final Stroke stroke;
 
-    GameResult(String id, int strokes, PingPong winner, Stroke stroke) {
+    GameResult(String id, int strokes, String winner, String looser, Stroke stroke) {
         this.id = id;
         this.strokes = strokes;
         this.winner = winner;
         this.stroke = stroke;
-        this.reason = stroke.getReason(winner.theOther());
+        this.reason = stroke.getDescription(looser);
     }
 
     @Override

@@ -2,8 +2,12 @@ package jax2016.pong;
 
 import javax.ws.rs.*;
 
+import org.jboss.logging.Logger;
+
 @Path("/pong/{id}")
 public class PongEndpoint {
+
+    Logger log = Logger.getLogger("pong");
 
     // ==================================================================================
     // Configuration
@@ -19,7 +23,7 @@ public class PongEndpoint {
     @Produces("text/plain")
     public String pong(@PathParam("id") String id) {
         Stroke stroke = Stroke.play(getStrength());
-        System.out.println(id + "< " + stroke);
+        log.info("PONG - " + id + "< " + stroke);
         return stroke.toString();
     }
 }

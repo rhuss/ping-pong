@@ -1,19 +1,15 @@
 package jax2016.ping;
 
 enum Stroke {
-    HIT {
-        String getReason(PingPong who) {
-            return who + " hit the ball";
-        }
-    },
+    HIT ,
     MISSED {
-        String getReason(PingPong who) {
-            return who + " missed the ball";
+        String getDescription(String looser) {
+            return looser + " missed the ball";
         }
     },
     OUT {
-        String getReason(PingPong who) {
-            return who + " hit the ball out";
+        String getDescription(String looser) {
+            return looser + " hit the ball out";
         }
     };
 
@@ -24,5 +20,5 @@ enum Stroke {
         return strength * Math.random() > 0.5 ? OUT : MISSED;
     }
 
-    abstract String getReason(PingPong who);
+    String getDescription(String looser) { return null; };
 }
