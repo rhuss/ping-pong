@@ -20,7 +20,7 @@ class GameResult {
     public String toString() {
         return "GameResult{" +
                "id=" + id +
-               "strokes=" + strokes +
+               ", strokes=" + strokes +
                ", winner=" + winner +
                ", stroke=" + stroke +
                ", reason='" + reason + '\'' +

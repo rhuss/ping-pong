@@ -15,7 +15,6 @@ import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.stereotype.Component;
 
-import static jax2016.ping.Player.*;
 import static jax2016.ping.Stroke.*;
 
 @Component
@@ -26,10 +25,10 @@ public class PingClient implements Runnable {
     // ==================================================================================
     // Configuration
 
-    @Value("${HOST:localhost}")
+    @Value("${PONG_SERVICE_HOST:localhost}")
     private String host;
 
-    @Value("${PORT:8080}")
+    @Value("${PONG_SERVICE_PORT:8080}")
     private String port;
 
     @Value("${STRENGTH:2}")
@@ -67,11 +66,12 @@ public class PingClient implements Runnable {
                     while (result == null) {
                         nrStrokes++;
                         // Send HTTP request to PONG
-                        Stroke stroke = request(getUrl() + "/" + id);
+                        String response[] = request(getUrl() + "/" + id);
+                        Stroke stroke = Stroke.valueOf(response[1].toUpperCase());
 
                         // Evaluate stroke and decide on next action
                         result = evaluateStroke(nrStrokes, stroke);
-                        logDot();
+                        logRequest(response[0],stroke);
                     }
                     logEnd(result);
 
@@ -103,13 +103,13 @@ public class PingClient implements Runnable {
         }
     }
 
-    private Stroke request(String url) throws IOException {
+    private String[] request(String url) throws IOException {
         Request request = new Request.Builder()
             .url(url)
             .build();
 
         Response response = client.newCall(request).execute();
-        return Stroke.valueOf(response.body().string().toUpperCase());
+        return response.body().string().split("\\s+");
     }
 
     private void waitForNextTry() throws InterruptedException {
@@ -139,14 +139,8 @@ public class PingClient implements Runnable {
         System.out.println(formatLogMsg(color, txt));
     }
 
-    private void logPref() {
-        System.out.print(AnsiOutput.toString(AnsiColor.BLUE, "[", id, "] "));
-        System.out.flush();
-    }
-
     private void logStart() {
         log(AnsiColor.RED, "==== Start Game ==============");
-        logPref();
     }
 
     private void logEnd(GameResult result) {
@@ -155,15 +149,22 @@ public class PingClient implements Runnable {
         log(AnsiColor.RED, "==== End Game ================");
     }
 
-    private void logDot() {
-        System.out.print(AnsiOutput.toString(AnsiColor.CYAN, "."));
-        System.out.flush();
+    private void logRequest(String opponentId, Stroke stroke) {
+        String logLine =
+            formatId() +
+            "<== " +
+            AnsiOutput.toString(AnsiColor.YELLOW,stroke) +
+            " <== " +
+            AnsiOutput.toString(AnsiColor.CYAN,"[",opponentId,"] ");
+        System.out.println(logLine);
     }
 
     private String formatLogMsg(AnsiColor color, String txt) {
-        return AnsiOutput.toString(AnsiColor.BLUE, "[", id, "] ", color, txt);
+        return formatId() + AnsiOutput.toString(color, txt);
     }
 
-
+    private String formatId() {
+        return AnsiOutput.toString(AnsiColor.BLUE, "[", id, "] ");
+    }
 
 }
