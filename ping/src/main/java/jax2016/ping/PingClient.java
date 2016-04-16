@@ -51,6 +51,7 @@ public class PingClient implements Runnable {
     @PostConstruct
     public void start() {
         id = createId();
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         new Thread(this).start();
     }
 
