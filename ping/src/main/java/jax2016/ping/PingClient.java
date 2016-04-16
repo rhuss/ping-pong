@@ -65,6 +65,7 @@ public class PingClient implements Runnable {
     @PostConstruct
     public void start() {
         id = createId();
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         log(AnsiColor.GREEN, "Url via DNS: " + getUrlViaDns());
         dnsResolver = DnsSrvResolvers.newBuilder()
                                      .cachingLookups(false)
