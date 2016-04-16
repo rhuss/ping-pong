@@ -26,8 +26,6 @@ public class PingClient implements Runnable {
 
     private OkHttpClient client = new OkHttpClient();
 
-    private DnsSrvResolver dnsResolver;
-
     // ==================================================================================
 
     // Configuration
@@ -38,7 +36,6 @@ public class PingClient implements Runnable {
     @Value("${OPPONENT:pong}")
     private String opponent;
 
-
     @Value("${WAIT_MAX_SECONDS:5}")
     private int waitMaxSeconds;
 
@@ -48,6 +45,7 @@ public class PingClient implements Runnable {
 
     private String getUrlViaDns() {
         String srvAddress = "_http._tcp." + opponent + ".default.svc.cluster.local";
+        DnsSrvResolver dnsResolver = createDnsSrvResolver();
         List<LookupResult> services = dnsResolver.resolve(srvAddress);
         log(AnsiColor.DEFAULT,"Lookup " + srvAddress + ": " + services);
         if (services.size() !=  0) {
@@ -67,11 +65,6 @@ public class PingClient implements Runnable {
         id = createId();
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         log(AnsiColor.GREEN, "Url via DNS: " + getUrlViaDns());
-        dnsResolver = DnsSrvResolvers.newBuilder()
-                                     .cachingLookups(false)
-                                     .retainingDataOnFailures(true)
-                                     .dnsLookupTimeoutMillis(1000)
-                                     .build();
 
         new Thread(this).start();
     }
@@ -148,6 +141,14 @@ public class PingClient implements Runnable {
     private String createId() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString().substring(0,8);
+    }
+
+    private DnsSrvResolver createDnsSrvResolver() {
+        return DnsSrvResolvers.newBuilder()
+                              .cachingLookups(false)
+                              .retainingDataOnFailures(true)
+                              .dnsLookupTimeoutMillis(1000)
+                              .build();
     }
 
     // ================================================================================
