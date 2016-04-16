@@ -3,10 +3,14 @@ package jax2016.ping;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
+import com.spotify.dns.DnsSrvResolver;
+import com.spotify.dns.DnsSrvResolvers;
+import com.spotify.dns.LookupResult;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -22,14 +26,11 @@ public class PingClient implements Runnable {
 
     private OkHttpClient client = new OkHttpClient();
 
+    private DnsSrvResolver dnsResolver;
+
     // ==================================================================================
+
     // Configuration
-
-    @Value("${PONG_SERVICE_HOST:localhost}")
-    private String host;
-
-    @Value("${PONG_SERVICE_PORT:8080}")
-    private String port;
 
     @Value("${STRENGTH:2}")
     private int strength;
@@ -37,11 +38,24 @@ public class PingClient implements Runnable {
     @Value("${OPPONENT:pong}")
     private String opponent;
 
+
     @Value("${WAIT_MAX_SECONDS:5}")
     private int waitMaxSeconds;
 
     private String getUrl() {
-        return "http://" + host + ":" + port + "/" + opponent;
+        return "http://" + opponent + ":8080/" + opponent;
+    }
+
+    private String getUrlViaDns() {
+        String srvAddress = "_http._tcp." + opponent + ".default.svc.cluster.local";
+        List<LookupResult> services = dnsResolver.resolve(srvAddress);
+        log(AnsiColor.DEFAULT,"Lookup " + srvAddress + ": " + services);
+        if (services.size() !=  0) {
+            LookupResult result = services.get(0);;
+            return "http://" + result.host() + ":" + result.port() + "/" + opponent;
+        } else {
+            return null;
+        }
     }
 
     // ====================================================================================
@@ -51,6 +65,13 @@ public class PingClient implements Runnable {
     @PostConstruct
     public void start() {
         id = createId();
+        log(AnsiColor.GREEN, "Url via DNS: " + getUrlViaDns());
+        dnsResolver = DnsSrvResolvers.newBuilder()
+                                     .cachingLookups(false)
+                                     .retainingDataOnFailures(true)
+                                     .dnsLookupTimeoutMillis(1000)
+                                     .build();
+
         new Thread(this).start();
     }
 
