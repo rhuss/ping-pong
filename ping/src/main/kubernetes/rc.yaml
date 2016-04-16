@@ -26,3 +26,5 @@ spec:
         env:
         - name: STRENGTH
           value: "5"
+      # For demo:
+      terminationGracePeriodSeconds: 1

@@ -24,3 +24,6 @@ spec:
         name: pong
         ports:
         - containerPort: 8080
+      # For demo:
+      terminationGracePeriodSeconds: 1
+
