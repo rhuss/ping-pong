@@ -185,7 +185,7 @@ public class PingClient implements Runnable {
     }
 
     private String formatId() {
-        return AnsiOutput.toString(AnsiColor.BLUE, "[", id, "] ");
+        return AnsiOutput.toString(AnsiColor.RED,"-- V2 -- ", AnsiColor.BLUE, "[", id, "] ");
     }
 
 }
