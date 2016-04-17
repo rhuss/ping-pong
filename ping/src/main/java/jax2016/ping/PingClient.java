@@ -64,12 +64,13 @@ public class PingClient implements Runnable {
                     GameResult result = null;
 
                     logStart();
+                    logRequest(Stroke.HIT);
                     while (result == null) {
                         nrStrokes++;
                         // Send HTTP request to PONG
                         String response[] = request(getUrl() + "/" + id);
                         Stroke stroke = Stroke.valueOf(response[1].toUpperCase());
-                        logRequest(response[0],stroke);
+                        logResponse(response[0], stroke);
 
                         // Evaluate stroke and decide on next action
                         result = evaluateStroke(response[0], nrStrokes, stroke);
@@ -93,11 +94,12 @@ public class PingClient implements Runnable {
         } else {
             // Check whether we hit the ball ...
             Stroke myStroke = Stroke.play(strength);
+            logRequest(myStroke);
             if (myStroke == MISSED) {
                 // Oh shit, we loose ...
                 return new GameResult(id, opponentId, nrStrokes, opponent, "ping");
             } else {
-                // No result yet ==> next round
+                // Next round, please ...
                 return null;
             }
         }
@@ -140,22 +142,34 @@ public class PingClient implements Runnable {
     }
 
     private void logStart() {
-        log(AnsiColor.RED, "==== Start Game ===============================");
+        log(AnsiColor.YELLOW, "==== Start Game =======");
     }
 
     private void logEnd(GameResult result) {
         System.out.println();
         log(AnsiColor.DEFAULT,result.toString());
-        log(AnsiColor.RED, "==== End Game =================================\n");
+        log(AnsiColor.YELLOW, "==== End Game =========\n");
     }
 
-    private void logRequest(String opponentId, Stroke stroke) {
+    private void logResponse(String opponentId, Stroke stroke) {
         String logLine =
             formatId() +
             "<== " +
-            AnsiOutput.toString(AnsiColor.YELLOW,stroke) +
+            AnsiOutput.toString(AnsiColor.BLUE,stroke) +
             " <== " +
-            AnsiOutput.toString(AnsiColor.CYAN,"[",opponentId,"] ");
+            AnsiOutput.toString(AnsiColor.BRIGHT_RED,"[",opponentId,"] ");
+        System.out.println(logLine);
+        System.out.flush();
+    }
+
+    private void logRequest(Stroke stroke) {
+        String logLine =
+            formatId() +
+            "==> " +
+            AnsiOutput.toString(AnsiColor.BLUE,stroke);
+        if (stroke == Stroke.HIT) {
+            logLine += " ==> " + AnsiOutput.toString(AnsiColor.BRIGHT_RED,opponent);
+        }
         System.out.println(logLine);
         System.out.flush();
     }
@@ -165,7 +179,7 @@ public class PingClient implements Runnable {
     }
 
     private String formatId() {
-        return AnsiOutput.toString(AnsiColor.BLUE, "[", id, "] ");
+        return AnsiOutput.toString(AnsiColor.BRIGHT_GREEN, "[", id, "] ");
     }
 
 }
