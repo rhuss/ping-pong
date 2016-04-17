@@ -37,7 +37,7 @@ public class PingClient implements Runnable {
     @Value("${OPPONENT:pong}")
     private String opponent;
 
-    @Value("${WAIT_MAX_SECONDS:5}")
+    @Value("${WAIT_MAX_SECONDS:3}")
     private int waitMaxSeconds;
 
     private String getUrl() {
@@ -69,10 +69,10 @@ public class PingClient implements Runnable {
                         // Send HTTP request to PONG
                         String response[] = request(getUrl() + "/" + id);
                         Stroke stroke = Stroke.valueOf(response[1].toUpperCase());
+                        logRequest(response[0],stroke);
 
                         // Evaluate stroke and decide on next action
-                        result = evaluateStroke(nrStrokes, stroke);
-                        logRequest(response[0],stroke);
+                        result = evaluateStroke(response[0], nrStrokes, stroke);
                     }
                     logEnd(result);
 
@@ -86,21 +86,20 @@ public class PingClient implements Runnable {
         }
     }
 
-    private GameResult evaluateStroke(int nrStrokes, Stroke stroke) {
-        GameResult result = checkResult(nrStrokes, new Player(opponent, Player.PING), stroke);
-        if (result == null) {
-            result = checkResult(nrStrokes, new Player(Player.PING, opponent), Stroke.play(strength));
-        }
-        return result;
-    }
-
-    private GameResult checkResult(int nrStrokes, Player who, Stroke stroke) {
+    private GameResult evaluateStroke(String opponentId, int nrStrokes, Stroke stroke) {
         if (stroke == MISSED) {
-            return new GameResult(id, nrStrokes, who.getOpponent(), who.getPlayer(), stroke);
-        } else if (stroke == OUT) {
-            return new GameResult(id, nrStrokes, who.getPlayer(), who.getOpponent(), stroke);
+            // Yippie ! We won ...
+            return new GameResult(id, opponentId, nrStrokes, "ping", opponent);
         } else {
-            return null;
+            // Check whether we hit the ball ...
+            Stroke myStroke = Stroke.play(strength);
+            if (myStroke == MISSED) {
+                // Oh shit, we loose ...
+                return new GameResult(id, opponentId, nrStrokes, opponent, "ping");
+            } else {
+                // No result yet ==> next round
+                return null;
+            }
         }
     }
 
@@ -141,13 +140,13 @@ public class PingClient implements Runnable {
     }
 
     private void logStart() {
-        log(AnsiColor.RED, "==== Start Game ==============");
+        log(AnsiColor.RED, "==== Start Game ===============================");
     }
 
     private void logEnd(GameResult result) {
         System.out.println();
-        log(AnsiColor.GREEN, result.toString());
-        log(AnsiColor.RED, "==== End Game ================");
+        log(AnsiColor.DEFAULT,result.toString());
+        log(AnsiColor.RED, "==== End Game =================================\n");
     }
 
     private void logRequest(String opponentId, Stroke stroke) {
@@ -158,6 +157,7 @@ public class PingClient implements Runnable {
             " <== " +
             AnsiOutput.toString(AnsiColor.CYAN,"[",opponentId,"] ");
         System.out.println(logLine);
+        System.out.flush();
     }
 
     private String formatLogMsg(AnsiColor color, String txt) {
