@@ -29,7 +29,6 @@ public class PongEndpoint {
     @Produces("text/plain")
     public String pong(@PathParam("id") String id) {
         Stroke stroke = Stroke.play(getStrength());
-        log.info("PONG: [" + pongId + "] ==> " + stroke + " ==> [" + id + "]");
         return pongId + " " + stroke.toString();
     }
 }
