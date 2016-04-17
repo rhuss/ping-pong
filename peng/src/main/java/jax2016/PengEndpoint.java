@@ -20,7 +20,7 @@ public class PengEndpoint {
     // ==================================================================================
     // Configuration
 
-    @Value("${strength:2}")
+    @Value("${STRENGTH:2}")
     private int strength;
 
     // ====================================================================================
@@ -29,7 +29,6 @@ public class PengEndpoint {
     @Produces("text/plain")
     public String peng(@PathParam("id") String id) {
         Stroke stroke = Stroke.play(strength);
-        log.info("PENG: [" + pengId + "] ==> " + stroke + " ==> [" + id + "]");
         return pengId + " " + stroke.toString();
     }
 }
