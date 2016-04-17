@@ -1,29 +1,40 @@
 package jax2016.ping;
 
+import org.springframework.boot.ansi.AnsiColor;
+import org.springframework.boot.ansi.AnsiOutput;
+
 class GameResult {
 
     private final String id;
-    private final String reason;
     private final int strokes;
     private final String winner;
-    private final Stroke stroke;
+    private final String looser;
+    private final String opponentId;
 
-    GameResult(String id, int strokes, String winner, String looser, Stroke stroke) {
+    GameResult(String id, String opponentId, int strokes, String winner, String looser) {
         this.id = id;
+        this.opponentId = opponentId;
         this.strokes = strokes;
         this.winner = winner;
-        this.stroke = stroke;
-        this.reason = stroke.getDescription(looser);
+        this.looser = looser;
     }
 
     @Override
     public String toString() {
-        return "GameResult{" +
-               "id=" + id +
-               ", strokes=" + strokes +
-               ", winner=" + winner +
-               ", stroke=" + stroke +
-               ", reason='" + reason + '\'' +
-               '}';
+        return "[ " +
+               AnsiOutput.toString(AnsiColor.CYAN, strokes) + " : " +
+               getColoredPlayer(winner) +
+               " beats " +
+               getColoredPlayer(looser) +
+               AnsiOutput.toString(AnsiColor.BRIGHT_WHITE, " (" + getIdFor(winner) + " --> " + getIdFor(looser) + ")") +
+               " ]";
+    }
+
+    private String getColoredPlayer(String who) {
+        return AnsiOutput.toString(who.equalsIgnoreCase("ping") ? AnsiColor.BRIGHT_GREEN : AnsiColor.BRIGHT_RED, who);
+    }
+
+    private String getIdFor(String who) {
+        return who.equalsIgnoreCase("ping") ? id : opponentId;
     }
 }
