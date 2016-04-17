@@ -11,7 +11,8 @@ class GameResult {
     private final String looser;
     private final String opponentId;
 
-    GameResult(String id, String opponentId, int strokes, String winner, String looser) {
+    GameResult(String id, String opponentId, int strokes,
+               String winner, String looser) {
         this.id = id;
         this.opponentId = opponentId;
         this.strokes = strokes;
@@ -26,15 +27,12 @@ class GameResult {
                getColoredPlayer(winner) +
                " beats " +
                getColoredPlayer(looser) +
-               AnsiOutput.toString(AnsiColor.BRIGHT_WHITE, " (" + getIdFor(winner) + " --> " + getIdFor(looser) + ")") +
                " ]";
     }
 
     private String getColoredPlayer(String who) {
-        return AnsiOutput.toString(who.equalsIgnoreCase("ping") ? AnsiColor.BRIGHT_GREEN : AnsiColor.BRIGHT_RED, who);
-    }
-
-    private String getIdFor(String who) {
-        return who.equalsIgnoreCase("ping") ? id : opponentId;
+        return AnsiOutput.toString(who.equalsIgnoreCase("ping") ?
+                                       AnsiColor.BRIGHT_GREEN :
+                                       AnsiColor.BRIGHT_RED, who);
     }
 }
