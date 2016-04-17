@@ -19,7 +19,7 @@ public class PongEndpoint {
     // Configuration
 
     private int getStrength() {
-        String strength = System.getenv("PONG_STRENGTH");
+        String strength = System.getenv("STRENGTH");
         return strength == null ? 2 : Integer.parseInt(strength);
     }
 
