@@ -1,6 +1,6 @@
 ## 3 Microservices playing Pong
 
-<img alt="Pong" style="float: right;" src="https://raw.githubusercontent.com/rhuss/ping-pong-peng/pong-gif/pong.gif">
+<img alt="Pong" align="right" style="margin-left: 25px" src="https://raw.githubusercontent.com/rhuss/ping-pong-peng/pong-gif/pong.gif">
 
 This demo brings good old [Pong](https://en.wikipedia.org/wiki/Pong) in to a Microservices world.
 Hopefully everbody remembers ;-)
