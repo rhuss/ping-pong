@@ -11,17 +11,19 @@ The actors:
 * **pong** : A *wildfly-swarm* opponent using JAX-RS
 * **peng** : A *spring-boot* opponent using JAX-RS
 
-The purpose of this project is to showthe gradual way from plain Java Microservices over Docker images 
-to a full Kubernetes orchestration. Each step is in a separate Git branch:
+The purpose of this project is to show the gradual process from converting a plain Java Microservices over Docker images 
+to a full Kubernetes orchestration setup. 
 
-* [1-java]() : Plain Java Mircroservices *ping* and *pong*, created with [spring-boot]() and [wildfly-swarm]() respectively. 
-* [2-docker]() : Dockerization of these services with [fabric8io/docker-maven-plugin]()
-* [3-peng]() : Introducing *peng* as an alternative to *pong*.
-* [4-kubernetes]() : Adding Kuberentes deployment descriptors (*todo: A [fabric8io/fabric8-mave-plugin] for creating these resource descriptors from within the build)
-* [5-rolling-update]() : New version of *ping* in order to demonstrate a rolling update
-* 6-elastic-search : Adding [elastic-search]() and [grafana]() to store the results of a game and provide some dashbard. (**TODO**) 
+Each step is contained in a separate Git branch:
 
-More usage instructions and better documentations are coming later .... 
+* [1-java](https://github.com/rhuss/ping-pong-peng/tree/1-java) : Plain Java Mircroservices *ping* and *pong*, created with [spring-boot](http://projects.spring.io/spring-boot/) and [wildfly-swarm](http://wildfly-swarm.io/) respectively. 
+* [2-docker](https://github.com/rhuss/ping-pong-peng/tree/2-docker) : Dockerization of these services with [fabric8io/docker-maven-plugin](https://github.com/fabric8io/docker-maven-plugin)
+* [3-peng](https://github.com/rhuss/ping-pong-peng/tree/3-peng) : Introducing *peng* as an alternative to *pong*.
+* [4-kubernetes](https://github.com/rhuss/ping-pong-peng/tree/4-kubernetes) : Adding Kubernetes deployment descriptors (*todo: A [fabric8io/fabric8-maven-plugin](https://github.com/fabric8io/fabric8-maven-plugin) for creating these resource descriptors from within the build)
+* [5-rolling-update](https://github.com/rhuss/ping-pong-peng/tree/5-rolling-update) : New version of *ping* in order to demonstrate a rolling update
+* 6-elastic-search : Adding [elastic-search](https://github.com/elastic/elasticsearch) and [grafana](http://grafana.org/) to store the results of a game and provide some dashbard. (**TODO**) 
+
+*More usage instructions and better documentations are coming later .... have to start my presentation slide machine now ...* 
 
 ### Using local Java
 
