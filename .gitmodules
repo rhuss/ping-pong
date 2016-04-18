@@ -1,3 +1,0 @@
-[submodule "visualizer"]
-	path = visualizer
-	url = git@github.com:rhuss/gcp-live-k8s-visualizer.git
