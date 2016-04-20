@@ -82,13 +82,13 @@ public class PingClient implements Runnable {
                         nrStrokes++;
                         // Send HTTP request. Returns: <ID> <stroke>
                         String response[] = request(getUrl() + "/" + id);
-                        Stroke stroke =
-			      Stroke.valueOf(response[1].toUpperCase());
+                        Stroke stroke = 
+                            Stroke.valueOf(response[1].toUpperCase());
                         logResponse(response[0], stroke);
 
                         // Evaluate stroke and decide on next action
-                        result = evaluateStroke(response[0],
-			                        nrStrokes, stroke);
+                        result = evaluateStroke(response[0], 
+                                                nrStrokes, stroke);
                     }
                     logEnd(result);
 
@@ -106,7 +106,7 @@ public class PingClient implements Runnable {
                                       int nrStrokes, Stroke stroke) {
         if (stroke == MISSED) {
             // Yippie ! We won ...
-            return new GameResult(id, opponentId, nrStrokes,
+            return new GameResult(id, opponentId, nrStrokes, 
 	                          "ping", opponent);
         } else {
             // Check whether we hit the ball ...
@@ -114,7 +114,7 @@ public class PingClient implements Runnable {
             logRequest(myStroke);
             if (myStroke == MISSED) {
                 // Oh shit, we loose ...
-                return new GameResult(id, opponentId, nrStrokes,
+                return new GameResult(id, opponentId, nrStrokes, 
 		                      opponent, "ping");
             } else {
                 // Next round, please ...
@@ -208,5 +208,4 @@ public class PingClient implements Runnable {
         return AnsiOutput.toString(AnsiColor.RED, AnsiStyle.BOLD, "-- V2 -- ") +
                AnsiOutput.toString(AnsiColor.BRIGHT_GREEN, "[", id, "] ");
     }
-
 }
