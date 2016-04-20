@@ -22,7 +22,7 @@ public class PingClient implements Runnable {
 
     private OkHttpClient client = new OkHttpClient();
 
-    // ==================================================================================
+    // ==============================================================
     // Configuration
 
     @Value("${PONG_SERVICE_HOST:localhost}")
@@ -44,8 +44,7 @@ public class PingClient implements Runnable {
         return "http://" + host + ":" + port + "/" + opponent;
     }
 
-    // ====================================================================================
-
+    // ================================================================ 
     private String id;
 
     @PostConstruct
@@ -67,13 +66,15 @@ public class PingClient implements Runnable {
                     logRequest(Stroke.HIT);
                     while (result == null) {
                         nrStrokes++;
-                        // Send HTTP request to PONG
+                        // Send HTTP request. Returns: <ID> <stroke>
                         String response[] = request(getUrl() + "/" + id);
-                        Stroke stroke = Stroke.valueOf(response[1].toUpperCase());
+                        Stroke stroke = 
+			      Stroke.valueOf(response[1].toUpperCase());
                         logResponse(response[0], stroke);
 
                         // Evaluate stroke and decide on next action
-                        result = evaluateStroke(response[0], nrStrokes, stroke);
+                        result = evaluateStroke(response[0], 
+			                        nrStrokes, stroke);
                     }
                     logEnd(result);
 
@@ -87,17 +88,20 @@ public class PingClient implements Runnable {
         }
     }
 
-    private GameResult evaluateStroke(String opponentId, int nrStrokes, Stroke stroke) {
+    private GameResult evaluateStroke(String opponentId, 
+                                      int nrStrokes, Stroke stroke) {
         if (stroke == MISSED) {
             // Yippie ! We won ...
-            return new GameResult(id, opponentId, nrStrokes, "ping", opponent);
+            return new GameResult(id, opponentId, nrStrokes, 
+	                          "ping", opponent);
         } else {
             // Check whether we hit the ball ...
             Stroke myStroke = Stroke.play(strength);
             logRequest(myStroke);
             if (myStroke == MISSED) {
                 // Oh shit, we loose ...
-                return new GameResult(id, opponentId, nrStrokes, opponent, "ping");
+                return new GameResult(id, opponentId, nrStrokes, 
+		                      opponent, "ping");
             } else {
                 // Next round, please ...
                 return null;
@@ -130,7 +134,7 @@ public class PingClient implements Runnable {
         return uuid.toString().substring(0,8);
     }
 
-    // ================================================================================
+    // =================================================================
     // Pretty print
 
     private void nl() {
