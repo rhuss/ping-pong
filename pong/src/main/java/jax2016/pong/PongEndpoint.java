@@ -13,9 +13,10 @@ public class PongEndpoint {
 
     Logger log = Logger.getLogger("pong");
 
-    private static String pongId = UUID.randomUUID().toString().substring(0, 8);
+    private static String pongId = 
+                     UUID.randomUUID().toString().substring(0, 8);
 
-    // ==================================================================================
+    // =============================================================
     // Configuration
 
     private int getStrength() {
@@ -23,7 +24,7 @@ public class PongEndpoint {
         return strength == null ? 2 : Integer.parseInt(strength);
     }
 
-    // ====================================================================================
+    // =============================================================
 
     @GET
     @Produces("text/plain")
