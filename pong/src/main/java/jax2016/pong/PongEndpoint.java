@@ -6,7 +6,6 @@ import javax.ws.rs.*;
 
 import org.jboss.logging.Logger;
 
-import static io.undertow.websockets.core.WebSocketFrameType.PONG;
 
 @Path("/pong/{id}")
 public class PongEndpoint {
