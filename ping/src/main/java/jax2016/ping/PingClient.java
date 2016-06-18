@@ -93,6 +93,7 @@ public class PingClient implements Runnable {
                     logEnd(result);
 
                     waitABit(waitMaxSeconds);
+                    resetConnectionPool();
                 } catch (ConnectException | SocketTimeoutException exp) {
                     waitForNextTry();
                 }
@@ -156,6 +157,9 @@ public class PingClient implements Runnable {
                               .build();
     }
 
+    private void resetConnectionPool() throws IOException {
+        client.connectionPool().evictAll();
+    }
     // =================================================================
     // Pretty print
 
