@@ -3,24 +3,24 @@ kind: "ReplicationController"
 metadata:
   labels:
     name: pong
-    project: ping-pong-peng
+    project: ping-pong
     version: "1"
   name: pong
 spec:
   replicas: 1
   selector:
     name: pong
-    project: ping-pong-peng
+    project: ping-pong
     version: "1"
   template:
     metadata:
       labels:
         name: pong
-        project: ping-pong-peng
+        project: ping-pong
         version: "1"
     spec:
       containers:
-      - image: "rhuss/jax2016-pong:1"
+      - image: "rhuss/pong:1"
         name: pong
         ports:
         - containerPort: 8080
