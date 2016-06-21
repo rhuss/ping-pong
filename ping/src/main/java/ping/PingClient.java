@@ -1,4 +1,4 @@
-package jax2016.ping;
+package ping;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -20,7 +20,7 @@ import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.ansi.AnsiStyle;
 import org.springframework.stereotype.Component;
 
-import static jax2016.ping.Stroke.*;
+import static ping.Stroke.*;
 
 @Component
 public class PingClient implements Runnable {
