@@ -1,4 +1,4 @@
-package jax2016;
+package peng;
 
 import javax.ws.rs.ApplicationPath;
 
