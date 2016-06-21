@@ -21,7 +21,7 @@ spec:
         uses: pong
     spec:
       containers:
-      - image: "rhuss/jax2016-ping:1"
+      - image: "rhuss/ping:1"
         name: ping
         env:
         - name: STRENGTH

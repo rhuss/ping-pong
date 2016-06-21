@@ -8,7 +8,7 @@ metadata:
     version: "1"
 spec:
   containers:
-  - image: rhuss/jax2016-ping:1
+  - image: "rhuss/ping:1"
     name: ping
     ports:
     - containerPort: 8080
