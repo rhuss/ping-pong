@@ -4,7 +4,7 @@ metadata:
   name: ping
   labels:
     name: ping
-    project: ping-pong-peng
+    project: ping-pong
     version: "1"
 spec:
   containers:

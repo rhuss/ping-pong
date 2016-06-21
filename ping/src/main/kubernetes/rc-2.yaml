@@ -3,25 +3,25 @@ kind: "ReplicationController"
 metadata:
   labels:
     name: ping
-    project: ping-pong-peng
+    project: ping-pong
     version: "2"
   name: ping-v2
 spec:
   replicas: 3
   selector:
     name: ping
-    project: ping-pong-peng
+    project: ping-pong
     version: "2"
   template:
     metadata:
       labels:
         name: ping
-        project: ping-pong-peng
+        project: ping-pong
         version: "2"
         uses: pong
     spec:
       containers:
-      - image: "rhuss/jax2016-ping:2"
+      - image: "rhuss/ping:2"
         name: ping
         env:
         - name: STRENGTH

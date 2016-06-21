@@ -10,13 +10,13 @@ spec:
   replicas: 1
   selector:
     name: ping
-    project: ping-pong-peng
+    project: ping-pong
     version: "1"
   template:
     metadata:
       labels:
         name: ping
-        project: ping-pong-peng
+        project: ping-pong
         version: "1"
         uses: pong
     spec:

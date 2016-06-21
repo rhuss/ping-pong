@@ -39,7 +39,7 @@
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-pong:1</name>
+              <name>rhuss/pong:1</name>
               <build>
                 <from>${dmp.from}</from>
                 <cmd><shell>java -jar /maven/pong-swarm.jar</shell></cmd>
