@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>jax2016</groupId>
+  <groupId>io.fabric8</groupId>
   <artifactId>ping</artifactId>
   <version>1</version>
   <packaging>jar</packaging>
@@ -48,7 +48,7 @@
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-ping</name>
+              <name>rhuss/ping</name>
               <build>
                 <from>${dmp.from}</from>
                 <cmd><shell>java -jar /maven/ping-${project.version}.jar</shell></cmd>
