@@ -1,4 +1,4 @@
-package peng;
+package pong2;
 
 enum Stroke {
     HIT,

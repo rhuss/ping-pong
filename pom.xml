@@ -13,7 +13,7 @@
   <modules>
     <module>ping</module>
     <module>pong</module>
-    <module>peng</module>
+    <module>pong2</module>
   </modules>
 
   <build>
