@@ -1,4 +1,4 @@
-package jax2016.pong;
+package pong;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;
