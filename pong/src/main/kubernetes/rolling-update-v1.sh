@@ -1,2 +1,2 @@
 #!/bin/sh
-kubectl rolling-update pong --update-period=1s -f rc-v1.yaml
+kubectl rolling-update pong-v2 --update-period=1s -f rc-v1.yaml
