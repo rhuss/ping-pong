@@ -1,0 +1,27 @@
+apiVersion: "v1"
+kind: "ReplicationController"
+metadata:
+  labels:
+    name: peng
+    project: ping-pong-peng
+    version: "2"
+  name: peng-v2
+spec:
+  replicas: 3
+  selector:
+    name: peng
+    project: ping-pong-peng
+    version: "2"
+  template:
+    metadata:
+      labels:
+        name: peng
+        project: ping-pong-peng
+        version: "2"
+    spec:
+      containers:
+      - image: "rhuss/jax2016-peng:2"
+        name: peng
+        env:
+        - name: STRENGTH
+          value: "3"
