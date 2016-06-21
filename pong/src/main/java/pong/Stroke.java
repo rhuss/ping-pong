@@ -1,4 +1,4 @@
-package jax2016.ping;
+package pong;
 
 enum Stroke {
     HIT,

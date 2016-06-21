@@ -1,4 +1,4 @@
-package jax2016.ping;
+package ping;
 
 import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiOutput;
