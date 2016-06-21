@@ -11,8 +11,7 @@ The actors:
 * **pong** : A *wildfly-swarm* opponent using JAX-RS
 * **peng** : A *spring-boot* opponent using JAX-RS
 
-The purpose of this project is to show the gradual process from converting a plain Java Microservices over Docker images 
-to a full Kubernetes orchestration setup. 
+The purpose of this project is to show the gradual process from converting a plain Java Microservices over Docker images to a full Kubernetes orchestration setup. 
 
 Each step is contained in a separate Git branch:
 
@@ -21,9 +20,6 @@ Each step is contained in a separate Git branch:
 * [3-peng](https://github.com/rhuss/ping-pong-peng/tree/3-peng) : Introducing *peng* as an alternative to *pong*.
 * [4-kubernetes](https://github.com/rhuss/ping-pong-peng/tree/4-kubernetes) : Adding Kubernetes deployment descriptors (*todo: A [fabric8io/fabric8-maven-plugin](https://github.com/fabric8io/fabric8-maven-plugin) for creating these resource descriptors from within the build*)
 * [5-rolling-update](https://github.com/rhuss/ping-pong-peng/tree/5-rolling-update) : New version of *ping* in order to demonstrate a rolling update
-* 6-elastic-search : Adding [elastic-search](https://github.com/elastic/elasticsearch) and [grafana](http://grafana.org/) to store the results of a game and provide some dashbard. (**TODO**) 
-
-*More usage instructions and better documentations are coming later .... have to start my presentation slide machine now ...* 
 
 ### Using local Java
 
