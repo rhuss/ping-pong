@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>jax2016</groupId>
-  <artifactId>ping-pong-peng</artifactId>
+  <groupId>io.fabric8</groupId>
+  <artifactId>ping-pong</artifactId>
   <version>1</version>
   <packaging>pom</packaging>
 
-  <name>ping-pong-peng</name>
+  <name>ping-pong</name>
 
   <modules>
     <module>ping</module>
@@ -20,15 +20,15 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.14.2</version>
+        <version>0.15.3</version>
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-pong</name>
+              <name>rhuss/pong:1</name>
               <alias>pong</alias>
             </image>
             <image>
-              <name>rhuss/jax2016-ping</name>
+              <name>rhuss/ping:2</name>
               <alias>ping</alias>
               <run>
                 <net>container:pong</net>
@@ -39,36 +39,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>peng</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>io.fabric8</groupId>
-            <artifactId>docker-maven-plugin</artifactId>
-            <configuration>
-              <images>
-                <image>
-                  <name>rhuss/jax2016-peng</name>
-                  <alias>peng</alias>
-                </image>
-                <image>
-                  <name>rhuss/jax2016-ping</name>
-                  <alias>ping</alias>
-                  <run>
-                    <env>
-                      <OPPONENT>peng</OPPONENT>
-                    </env>
-                    <net>container:peng</net>
-                  </run>
-                </image>
-              </images>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>

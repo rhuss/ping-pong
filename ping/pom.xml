@@ -50,11 +50,11 @@
        <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.14.2</version>
+        <version>0.15.3</version>
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-ping:${project.version}</name>
+              <name>rhuss/jax2016-ping:2</name>
               <build>
                 <from>${dmp.from}</from>
                 <cmd><shell>java -jar /maven/${project.build.finalName}.jar</shell></cmd>
