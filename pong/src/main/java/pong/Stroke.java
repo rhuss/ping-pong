@@ -2,14 +2,10 @@ package pong;
 
 enum Stroke {
     HIT,
-    MISSED,
-    OUT;
+    MISSED;
 
     // very simplistic gameplay
     static Stroke play(int strength) {
-        if (strength * Math.random() > 0.5) {
-            return HIT;
-        };
-        return strength * Math.random() > 0.5 ? OUT : MISSED;
+        return strength * Math.random() > 0.5 ? HIT : MISSED;
     }
 }
