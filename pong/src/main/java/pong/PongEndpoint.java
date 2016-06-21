@@ -8,7 +8,7 @@ import javax.ws.rs.*;
 public class PongEndpoint {
 
     private static String pongId =
-        UUID.randomUUID().toString().substring(0, 8);
+        "ws-" + UUID.randomUUID().toString().substring(0, 8);
 
     @GET
     @Produces("text/plain")
