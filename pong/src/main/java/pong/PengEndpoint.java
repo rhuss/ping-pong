@@ -15,7 +15,7 @@ public class PengEndpoint {
 
     private Logger log = LoggerFactory.getLogger("pong");
 
-    private static String pengId = UUID.randomUUID().toString().substring(0, 8);
+    private static String pengId = "sb-" + UUID.randomUUID().toString().substring(0, 8);
 
     // ==================================================================================
     // Configuration
