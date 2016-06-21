@@ -1,4 +1,4 @@
-package pong2;
+package pong;
 
 import javax.ws.rs.ApplicationPath;
 

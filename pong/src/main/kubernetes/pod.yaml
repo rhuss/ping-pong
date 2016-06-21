@@ -8,7 +8,7 @@ metadata:
     version: "1"
 spec:
   containers:
-  - image: rhuss/pong:1
+  - image: rhuss/pong:2
     name: pong
     ports:
     - containerPort: 8080

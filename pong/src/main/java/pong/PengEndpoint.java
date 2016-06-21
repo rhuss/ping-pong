@@ -1,4 +1,4 @@
-package pong2;
+package pong;
 
 import java.util.UUID;
 
@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@Path("/pong2/{id}")
+@Path("/pong/{id}")
 public class PengEndpoint {
 
-    private Logger log = LoggerFactory.getLogger("pong2");
+    private Logger log = LoggerFactory.getLogger("pong");
 
     private static String pengId = UUID.randomUUID().toString().substring(0, 8);
 
