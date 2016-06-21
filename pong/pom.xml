@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>jax2016</groupId>
+  <groupId>io.fabric8</groupId>
   <artifactId>pong</artifactId>
   <version>1</version>
   <packaging>war</packaging>
@@ -35,11 +35,11 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.14.2</version>
+        <version>0.15.3</version>
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-pong:${project.version}</name>
+              <name>rhuss/pong:1</name>
               <build>
                 <from>${dmp.from}</from>
                 <cmd><shell>java -jar /maven/pong-swarm.jar</shell></cmd>

@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>jax2016</groupId>
+  <groupId>io.fabric8</groupId>
   <artifactId>ping</artifactId>
   <version>1</version>
   <packaging>jar</packaging>
@@ -43,11 +43,11 @@
        <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.14.2</version>
+        <version>0.15.3</version>
         <configuration>
           <images>
             <image>
-              <name>rhuss/jax2016-ping:${project.version}</name>
+              <name>rhuss/ping:1</name>
               <build>
                 <from>${dmp.from}</from>
                 <cmd><shell>java -jar /maven/${project.build.finalName}.jar</shell></cmd>
