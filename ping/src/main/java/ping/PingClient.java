@@ -80,7 +80,7 @@ public class PingClient implements Runnable {
 
                     waitABit(waitMaxSeconds);
                     resetConnectionPool();
-                } catch (ConnectException | SocketTimeoutException exp) {
+                } catch (IllegalArgumentException | ConnectException | SocketTimeoutException exp) {
                     waitForNextTry();
                 }
             }
