@@ -3,17 +3,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.fabric8</groupId>
+  <groupId>org.rhuss</groupId>
   <artifactId>pong</artifactId>
   <version>1</version>
   <packaging>war</packaging>
 
   <name>pong</name>
-
-  <properties>
-    <!-- ARM alternative: hypriot/rpi-java -->
-    <dmp.from>java:8-jre-alpine</dmp.from>
-  </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -31,39 +26,10 @@
     <finalName>pong</finalName>
 
     <plugins>
-
       <plugin>
         <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>0.16.5</version>
-        <configuration>
-          <images>
-            <image>
-              <name>rhuss/pong:1</name>
-              <build>
-                <from>${dmp.from}</from>
-                <cmd><shell>java -jar /maven/pong-swarm.jar</shell></cmd>
-                <ports>
-                  <port>8080</port>
-                </ports>
-                <env>
-                  <PONG_STRENGTH>5</PONG_STRENGTH>
-                </env>
-                <assembly>
-                  <inline>
-                    <files>
-                      <file>
-                        <source>${project.build.directory}/pong-swarm.jar</source>
-                      </file>
-                    </files>
-                  </inline>
-                </assembly>
-              </build>
-              <!-- Don't run when called from parent -->
-              <run><skip>true</skip></run>
-            </image>
-          </images>
-        </configuration>
+        <artifactId>fabric8-maven-plugin</artifactId>
+        <version>3.1.56</version>
       </plugin>
 
       <plugin>

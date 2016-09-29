@@ -15,28 +15,4 @@
     <module>pong</module>
   </modules>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>0.16.5</version>
-        <configuration>
-          <images>
-            <image>
-              <name>rhuss/pong</name>
-              <alias>pong</alias>
-            </image>
-            <image>
-              <name>rhuss/ping</name>
-              <alias>ping</alias>
-              <run>
-                <net>container:pong</net>
-              </run>
-            </image>
-          </images>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
