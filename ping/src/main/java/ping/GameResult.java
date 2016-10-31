@@ -1,5 +1,8 @@
 package ping;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.boot.ansi.AnsiColor;
 import org.springframework.boot.ansi.AnsiOutput;
 
@@ -28,6 +31,14 @@ class GameResult {
                " beats " +
                getColoredPlayer(looser) +
                " ]";
+    }
+
+    public Map<String, Object> toData() {
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("winner", winner);
+        ret.put("nr_strokes", strokes);
+        ret.put("looser", looser);
+        return ret;
     }
 
     private String getColoredPlayer(String who) {

@@ -22,6 +22,7 @@
     <java.version>1.8</java.version>
     <!-- ARM alternative: hypriot/rpi-java -->
     <dmp.from>java:8-jre-alpine</dmp.from>
+    <version.fabric8-maven-plugin>3.1-SNAPSHOT</version.fabric8-maven-plugin>
   </properties>
 
   <dependencies>
@@ -42,33 +43,51 @@
       <version>3.1.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.fluentd</groupId>
+      <artifactId>fluent-logger</artifactId>
+      <version>0.3.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
     <plugins>
 
-       <plugin>
+      <plugin>
         <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>0.16.5</version>
+        <artifactId>fabric8-maven-plugin</artifactId>
+        <version>${version.fabric8-maven-plugin}</version>
         <configuration>
+          <mode>kubernetes</mode>
+          <verbose>true</verbose>
           <images>
             <image>
-              <name>rhuss/ping:2</name>
+              <name>fabric8/ping-fluentd-sidecar</name>
+              <alias>fluentd</alias>
               <build>
-                <from>${dmp.from}</from>
-                <cmd><shell>java -jar /maven/${project.build.finalName}.jar</shell></cmd>
-                <env>
-                </env>
-                <assembly>
-                  <descriptorRef>artifact</descriptorRef>
-                </assembly>
+                <dockerFileDir>fluentd</dockerFileDir>
               </build>
-              <!-- Don't run when called from parent -->
-              <run><skip>true</skip></run>
             </image>
           </images>
+
+          <generator>
+            <config>
+              <spring-boot>
+                <enabled>true</enabled>
+              </spring-boot>
+            </config>
+          </generator>
         </configuration>
+
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+              <goal>resource</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -76,6 +95,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
     </plugins>
+
   </build>
 
 </project>

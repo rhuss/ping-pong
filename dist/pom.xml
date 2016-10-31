@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.fabric8</groupId>
-  <artifactId>pong</artifactId>
+  <artifactId>dist</artifactId>
   <version>2</version>
-  <packaging>jar</packaging>
 
-  <name>pong</name>
-  <description>Demo project for Spring Boot</description>
+  <name>dist</name>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -19,17 +17,33 @@
   </parent>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>1.8</java.version>
-    <!-- ARM alternative: hypriot/rpi-java -->
-    <dmp.from>java:8-jre-alpine</dmp.from>
-    <version.fabric8-maven-plugin>3.1.83</version.fabric8-maven-plugin>
+    <version.fabric8-maven-plugin>3.1-SNAPSHOT</version.fabric8-maven-plugin>
+    <version.fabric8-devops>2.2.289</version.fabric8-devops>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jersey</artifactId>
+      <groupId>io.fabric8</groupId>
+      <artifactId>ping</artifactId>
+      <version>2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.fabric8</groupId>
+      <artifactId>pong</artifactId>
+      <version>2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.fabric8.devops.apps</groupId>
+      <artifactId>kibana</artifactId>
+      <version>${version.fabric8-devops}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.fabric8.devops.apps</groupId>
+      <artifactId>elasticsearch</artifactId>
+      <version>${version.fabric8-devops}</version>
     </dependency>
   </dependencies>
 
@@ -43,24 +57,18 @@
         <configuration>
           <mode>kubernetes</mode>
           <verbose>true</verbose>
+          <profile>aggregate</profile>
         </configuration>
-
         <executions>
           <execution>
             <goals>
-              <goal>build</goal>
               <goal>resource</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
     </plugins>
-  </build>
 
+  </build>
 
 </project>

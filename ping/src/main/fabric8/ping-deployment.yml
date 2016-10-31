@@ -1,0 +1,10 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: fluentd
+        env:
+        - name: "ES_HOST"
+          value: "elasticsearch"
+        - name: "ES_PORT"
+          value: 9200

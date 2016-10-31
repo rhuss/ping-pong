@@ -13,6 +13,7 @@
   <modules>
     <module>ping</module>
     <module>pong</module>
+    <module>dist</module>
   </modules>
 
   <build>
