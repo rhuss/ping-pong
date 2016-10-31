@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Path("/pong/{id}")
-public class PengEndpoint {
+public class Pong2Endpoint {
 
     private Logger log = LoggerFactory.getLogger("pong");
 
-    private static String pengId = "sb-" + UUID.randomUUID().toString().substring(0, 8);
+    private static String pongId = "sb-" + UUID.randomUUID().toString().substring(0, 8);
 
     // ==================================================================================
     // Configuration
@@ -27,8 +27,8 @@ public class PengEndpoint {
 
     @GET
     @Produces("text/plain")
-    public String peng(@PathParam("id") String id) {
+    public String pong(@PathParam("id") String id) {
         Stroke stroke = Stroke.play(strength);
-        return pengId + " " + stroke.toString();
+        return pongId + " " + stroke.toString();
     }
 }

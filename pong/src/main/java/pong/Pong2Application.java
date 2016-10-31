@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PengApplication {
+public class Pong2Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PengApplication.class, args);
+		SpringApplication.run(Pong2Application.class, args);
 	}
 }
