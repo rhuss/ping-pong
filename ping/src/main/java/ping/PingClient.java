@@ -43,7 +43,7 @@ public class PingClient implements Runnable {
         String srvAddress = "_http._tcp." + opponent + ".default.svc.cluster.local";
         DnsSrvResolver dnsResolver = createDnsSrvResolver();
         List<LookupResult> services = dnsResolver.resolve(srvAddress);
-        log(AnsiColor.DEFAULT,"Lookup " + srvAddress + ": " + services);
+        //log(AnsiColor.DEFAULT,"Lookup " + srvAddress + ": " + services);
         if (services.size() !=  0) {
             LookupResult result = services.get(0);;
             return "http://" + result.host() + ":" + result.port() + "/" + opponent;
