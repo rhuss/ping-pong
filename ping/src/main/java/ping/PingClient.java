@@ -40,10 +40,6 @@ public class PingClient implements Runnable {
     private int waitMaxSeconds;
 
     private String getUrl() {
-        return "http://" + opponent + ":8080/" + opponent;
-    }
-
-    private String getUrlViaDns() {
         String srvAddress = "_http._tcp." + opponent + ".default.svc.cluster.local";
         DnsSrvResolver dnsResolver = createDnsSrvResolver();
         List<LookupResult> services = dnsResolver.resolve(srvAddress);
@@ -63,7 +59,7 @@ public class PingClient implements Runnable {
     public void start() {
         id = createId();
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-        log(AnsiColor.GREEN, "Url via DNS: " + getUrlViaDns());
+        log(AnsiColor.GREEN, "Url via DNS: " + getUrl());
 
         new Thread(this).start();
     }
@@ -82,12 +78,12 @@ public class PingClient implements Runnable {
                         nrStrokes++;
                         // Send HTTP request. Returns: <ID> <stroke>
                         String response[] = request(getUrl() + "/" + id);
-                        Stroke stroke = 
+                        Stroke stroke =
                             Stroke.valueOf(response[1].toUpperCase());
                         logResponse(response[0], stroke);
 
                         // Evaluate stroke and decide on next action
-                        result = evaluateStroke(response[0], 
+                        result = evaluateStroke(response[0],
                                                 nrStrokes, stroke);
                     }
                     logEnd(result);
@@ -107,7 +103,7 @@ public class PingClient implements Runnable {
                                       int nrStrokes, Stroke stroke) {
         if (stroke == MISSED) {
             // Yippie ! We won ...
-            return new GameResult(id, opponentId, nrStrokes, 
+            return new GameResult(id, opponentId, nrStrokes,
 	                          "ping", opponent);
         } else {
             // Check whether we hit the ball ...
@@ -115,7 +111,7 @@ public class PingClient implements Runnable {
             logRequest(myStroke);
             if (myStroke == MISSED) {
                 // Oh shit, we loose ...
-                return new GameResult(id, opponentId, nrStrokes, 
+                return new GameResult(id, opponentId, nrStrokes,
 		                      opponent, "ping");
             } else {
                 // Next round, please ...
