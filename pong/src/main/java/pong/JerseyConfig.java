@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 @ApplicationPath("/")
 public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
-        register(PengEndpoint.class);
+        register(Pong2Endpoint.class);
     }
 }
