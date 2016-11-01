@@ -5,7 +5,7 @@
 
   <groupId>io.fabric8</groupId>
   <artifactId>ping</artifactId>
-  <version>2</version>
+  <version>3</version>
   <packaging>jar</packaging>
 
   <name>ping</name>
