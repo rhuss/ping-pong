@@ -6,6 +6,6 @@ do
   export DOCKER_HOST=tcp://n${i}:2375
   unset DOCKER_TLS_VERIFY
   cd ping
-  mvn -Ddmp.from="hypriot/rpi-java" clean install docker:build
+  mvn -Ddmp.from="hypriot/rpi-java" clean install fabric8:build
   cd ..
 done
