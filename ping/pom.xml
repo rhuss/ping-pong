@@ -51,7 +51,11 @@
               <name>rhuss/ping</name>
               <build>
                 <from>${dmp.from}</from>
-                <cmd><shell>java -jar /maven/ping-${project.version}.jar</shell></cmd>
+                <cmd>
+		  <shell>
+		    java -jar /maven/ping-${project.version}.jar
+		  </shell>
+		</cmd>
                 <env>
                 </env>
                 <assembly>
