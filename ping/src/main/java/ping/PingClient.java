@@ -27,7 +27,7 @@ public class PingClient implements Runnable {
 
     private OkHttpClient client = new OkHttpClient();
 
-    // ==============================================================
+    // =====================================================
     // Configuration
 
     @Value("${STRENGTH:2}")
@@ -56,7 +56,7 @@ public class PingClient implements Runnable {
         }
     }
 
-    // ================================================================
+    // ====================================================== 
     private String id;
 
     @PostConstruct
@@ -94,7 +94,8 @@ public class PingClient implements Runnable {
 
                     waitABit(waitMaxSeconds);
                     resetConnectionPool();
-                } catch (IllegalArgumentException | ConnectException | SocketTimeoutException exp) {
+                } catch (IllegalArgumentException | ConnectException |
+		         SocketTimeoutException exp) {
                     waitForNextTry();
                 }
             }
