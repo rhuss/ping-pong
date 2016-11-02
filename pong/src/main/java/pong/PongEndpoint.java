@@ -17,6 +17,7 @@ public class PongEndpoint {
         Stroke stroke = Stroke.play(getStrength());
         return pongId + " " + stroke.toString();
     }
+
     // =========================================================
     // Configuration
 
