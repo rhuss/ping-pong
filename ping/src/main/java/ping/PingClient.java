@@ -22,7 +22,7 @@ public class PingClient implements Runnable {
 
     private OkHttpClient client = new OkHttpClient();
 
-    // ==============================================================
+    // =====================================================
     // Configuration
 
     @Value("${PONG_SERVICE_HOST:localhost}")
@@ -44,7 +44,7 @@ public class PingClient implements Runnable {
         return "http://" + host + ":" + port + "/" + opponent;
     }
 
-    // ================================================================ 
+    // ====================================================== 
     private String id;
 
     @PostConstruct
@@ -80,7 +80,8 @@ public class PingClient implements Runnable {
 
                     waitABit(waitMaxSeconds);
                     resetConnectionPool();
-                } catch (IllegalArgumentException | ConnectException | SocketTimeoutException exp) {
+                } catch (IllegalArgumentException | ConnectException |
+		         SocketTimeoutException exp) {
                     waitForNextTry();
                 }
             }
