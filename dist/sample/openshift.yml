@@ -1,0 +1,345 @@
+---
+apiVersion: "v1"
+kind: "List"
+items:
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    annotations:
+      fabric8.io/iconUrl: "https://cdn.rawgit.com/fabric8io/fabric8-devops/master/elasticsearch/src/main/fabric8/icon.png"
+      fabric8.io/git-commit: "a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/git-branch: "release-v2.2.289"
+      fabric8.io/build-id: "16"
+      fabric8.io/git-url: "http://gogs.ux.fabric8.io/gogsadmin/oss-parent/commit/a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/build-url: "http://jenkins.ux.fabric8.io/job/oss-parent/16"
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/devops/apps/elasticsearch/2.2.289/elasticsearch-2.2.289.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      provider: "fabric8"
+      expose: "true"
+      project: "elasticsearch"
+      version: "2.2.289"
+      group: "io.fabric8.devops.apps"
+    name: "elasticsearch"
+  spec:
+    ports:
+    - name: "http"
+      port: 9200
+      protocol: "TCP"
+      targetPort: 9200
+    selector:
+      project: "elasticsearch"
+      provider: "fabric8"
+      group: "io.fabric8.devops.apps"
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    annotations:
+      fabric8.io/iconUrl: "https://cdn.rawgit.com/fabric8io/fabric8-devops/master/elasticsearch/src/main/fabric8/icon.png"
+      fabric8.io/git-commit: "a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/git-branch: "release-v2.2.289"
+      fabric8.io/build-id: "16"
+      fabric8.io/git-url: "http://gogs.ux.fabric8.io/gogsadmin/oss-parent/commit/a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/build-url: "http://jenkins.ux.fabric8.io/job/oss-parent/16"
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/devops/apps/elasticsearch/2.2.289/elasticsearch-2.2.289.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      provider: "fabric8"
+      project: "elasticsearch"
+      version: "2.2.289"
+      group: "io.fabric8.devops.apps"
+    name: "elasticsearch-masters"
+  spec:
+    clusterIP: "None"
+    ports:
+    - name: "discovery"
+      port: 9300
+      protocol: "TCP"
+      targetPort: 9300
+    selector:
+      project: "elasticsearch"
+      provider: "fabric8"
+      group: "io.fabric8.devops.apps"
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    annotations:
+      fabric8.io/app-menu: "management"
+      fabric8.io/iconUrl: "https://cdn.rawgit.com/fabric8io/fabric8-devops/master/kibana/src/main/fabric8/icon.svg"
+      fabric8.io/git-commit: "a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/git-branch: "release-v2.2.289"
+      fabric8.io/build-id: "16"
+      fabric8.io/git-url: "http://gogs.ux.fabric8.io/gogsadmin/oss-parent/commit/a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/build-url: "http://jenkins.ux.fabric8.io/job/oss-parent/16"
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/devops/apps/kibana/2.2.289/kibana-2.2.289.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      provider: "fabric8"
+      expose: "true"
+      project: "kibana"
+      version: "2.2.289"
+      group: "io.fabric8.devops.apps"
+    name: "kibana"
+  spec:
+    ports:
+    - name: "http"
+      port: 80
+      protocol: "TCP"
+      targetPort: 5601
+    selector:
+      project: "kibana"
+      provider: "fabric8"
+      group: "io.fabric8.devops.apps"
+- apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    annotations:
+      prometheus.io/port: "9779"
+      prometheus.io/scrape: "true"
+      fabric8.io/iconUrl: "img/icons/spring-boot.svg"
+      fabric8.io/git-commit: "d53da516921e4f599e05efce64c79899f467d31a"
+      fabric8.io/git-branch: "6-elasticsearch-logging"
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/pong/2/pong-2.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      expose: "true"
+      provider: "fabric8"
+      project: "pong"
+      version: "2"
+      group: "io.fabric8"
+    name: "pong"
+  spec:
+    ports:
+    - name: "http"
+      port: 80
+      protocol: "TCP"
+      targetPort: 8080
+    selector:
+      project: "pong"
+      provider: "fabric8"
+      group: "io.fabric8"
+    type: "LoadBalancer"
+- apiVersion: "v1"
+  kind: "PersistentVolumeClaim"
+  metadata:
+    annotations:
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/devops/apps/elasticsearch/2.2.289/elasticsearch-2.2.289.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      provider: "fabric8"
+      project: "elasticsearch"
+      version: "2.2.289"
+      group: "io.fabric8.devops.apps"
+    name: "es-data"
+  spec:
+    accessModes:
+    - "ReadWriteOnce"
+    resources:
+      requests:
+        storage: "1Gi"
+- apiVersion: "v1"
+  kind: "DeploymentConfig"
+  metadata:
+    annotations:
+      fabric8.io/git-commit: "a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=elasticsearch&var-version=2.2.289"
+      fabric8.io/build-id: "16"
+      fabric8.io/build-url: "http://jenkins.ux.fabric8.io/job/oss-parent/16"
+      fabric8.io/iconUrl: "https://cdn.rawgit.com/fabric8io/fabric8-devops/master/elasticsearch/src/main/fabric8/icon.png"
+      fabric8.io/git-branch: "release-v2.2.289"
+      fabric8.io/git-url: "http://gogs.ux.fabric8.io/gogsadmin/oss-parent/commit/a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/devops/apps/elasticsearch/2.2.289/elasticsearch-2.2.289.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      provider: "fabric8"
+      project: "elasticsearch"
+      version: "2.2.289"
+      group: "io.fabric8.devops.apps"
+    name: "elasticsearch"
+  spec:
+    replicas: 1
+    selector:
+      project: "elasticsearch"
+      provider: "fabric8"
+      group: "io.fabric8.devops.apps"
+    strategy:
+      rollingParams:
+        timeoutSeconds: 10800
+      type: "Rolling"
+    template:
+      metadata:
+        annotations:
+          fabric8.io/git-commit: "a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+          fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=elasticsearch&var-version=2.2.289"
+          fabric8.io/build-id: "16"
+          fabric8.io/build-url: "http://jenkins.ux.fabric8.io/job/oss-parent/16"
+          fabric8.io/iconUrl: "https://cdn.rawgit.com/fabric8io/fabric8-devops/master/elasticsearch/src/main/fabric8/icon.png"
+          fabric8.io/git-branch: "release-v2.2.289"
+          fabric8.io/git-url: "http://gogs.ux.fabric8.io/gogsadmin/oss-parent/commit/a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+        labels:
+          provider: "fabric8"
+          project: "elasticsearch"
+          version: "2.2.289"
+          group: "io.fabric8.devops.apps"
+      spec:
+        containers:
+        - env:
+          - name: "SERVICE"
+            value: "elasticsearch-masters"
+          - name: "KUBERNETES_NAMESPACE"
+            valueFrom:
+              fieldRef:
+                fieldPath: "metadata.namespace"
+          image: "fabric8/elasticsearch-k8s:2.3.4"
+          imagePullPolicy: "IfNotPresent"
+          livenessProbe:
+            initialDelaySeconds: 30
+            tcpSocket:
+              port: 9300
+          name: "elasticsearch"
+          readinessProbe:
+            httpGet:
+              path: "/_template/logstash"
+              port: 9200
+            initialDelaySeconds: 5
+          securityContext:
+            privileged: false
+          volumeMounts:
+          - mountPath: "/usr/share/elasticsearch/data"
+            name: "data"
+        - image: "fabric8/elasticsearch-logstash-template:2.2.289"
+          name: "logstash-template"
+        volumes:
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: "es-data"
+    triggers:
+    - type: "ConfigChange"
+- apiVersion: "v1"
+  kind: "DeploymentConfig"
+  metadata:
+    annotations:
+      fabric8.io/git-commit: "a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=kibana&var-version=2.2.289"
+      fabric8.io/build-id: "16"
+      fabric8.io/build-url: "http://jenkins.ux.fabric8.io/job/oss-parent/16"
+      fabric8.io/iconUrl: "https://cdn.rawgit.com/fabric8io/fabric8-devops/master/kibana/src/main/fabric8/icon.svg"
+      fabric8.io/git-branch: "release-v2.2.289"
+      fabric8.io/git-url: "http://gogs.ux.fabric8.io/gogsadmin/oss-parent/commit/a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/devops/apps/kibana/2.2.289/kibana-2.2.289.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      provider: "fabric8"
+      project: "kibana"
+      version: "2.2.289"
+      group: "io.fabric8.devops.apps"
+    name: "kibana"
+  spec:
+    replicas: 1
+    selector:
+      project: "kibana"
+      provider: "fabric8"
+      group: "io.fabric8.devops.apps"
+    strategy:
+      rollingParams:
+        timeoutSeconds: 10800
+      type: "Rolling"
+    template:
+      metadata:
+        annotations:
+          fabric8.io/git-commit: "a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+          fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=kibana&var-version=2.2.289"
+          fabric8.io/build-id: "16"
+          fabric8.io/build-url: "http://jenkins.ux.fabric8.io/job/oss-parent/16"
+          fabric8.io/iconUrl: "https://cdn.rawgit.com/fabric8io/fabric8-devops/master/kibana/src/main/fabric8/icon.svg"
+          fabric8.io/git-branch: "release-v2.2.289"
+          fabric8.io/git-url: "http://gogs.ux.fabric8.io/gogsadmin/oss-parent/commit/a0cab7962789be7089c282a241ecd70ce1bb8fe1"
+        labels:
+          provider: "fabric8"
+          project: "kibana"
+          version: "2.2.289"
+          group: "io.fabric8.devops.apps"
+      spec:
+        containers:
+        - env:
+          - name: "ELASTICSEARCH_URL"
+            value: "http://elasticsearch:9200"
+          - name: "KUBERNETES_NAMESPACE"
+            valueFrom:
+              fieldRef:
+                fieldPath: "metadata.namespace"
+          image: "fabric8/kibana4:v4.5.3"
+          imagePullPolicy: "IfNotPresent"
+          livenessProbe:
+            initialDelaySeconds: 60
+            tcpSocket:
+              port: 5601
+          name: "kibana"
+          readinessProbe:
+            httpGet:
+              path: "/"
+              port: 5601
+            initialDelaySeconds: 5
+          securityContext:
+            privileged: false
+        - env:
+          - name: "ELASTICSEARCH_URL"
+            value: "http://elasticsearch:9200"
+          image: "fabric8/kibana-config:2.2.289"
+          name: "logstash-template"
+    triggers:
+    - type: "ConfigChange"
+- apiVersion: "v1"
+  kind: "DeploymentConfig"
+  metadata:
+    annotations:
+      fabric8.io/iconUrl: "img/icons/spring-boot.svg"
+      fabric8.io/git-commit: "d53da516921e4f599e05efce64c79899f467d31a"
+      fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=pong&var-version=2"
+      fabric8.io/git-branch: "6-elasticsearch-logging"
+      maven.fabric8.io/source-url: "jar:file:/Users/roland/.m2/repository/io/fabric8/pong/2/pong-2.jar!/META-INF/fabric8/openshift.yml"
+    labels:
+      provider: "fabric8"
+      project: "pong"
+      version: "2"
+      group: "io.fabric8"
+    name: "pong"
+  spec:
+    replicas: 1
+    selector:
+      project: "pong"
+      provider: "fabric8"
+      group: "io.fabric8"
+    strategy:
+      rollingParams:
+        timeoutSeconds: 10800
+      type: "Rolling"
+    template:
+      metadata:
+        annotations:
+          fabric8.io/iconUrl: "img/icons/spring-boot.svg"
+          fabric8.io/git-commit: "d53da516921e4f599e05efce64c79899f467d31a"
+          fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=pong&var-version=2"
+          fabric8.io/git-branch: "6-elasticsearch-logging"
+        labels:
+          provider: "fabric8"
+          project: "pong"
+          version: "2"
+          group: "io.fabric8"
+      spec:
+        containers:
+        - env:
+          - name: "KUBERNETES_NAMESPACE"
+            valueFrom:
+              fieldRef:
+                fieldPath: "metadata.namespace"
+          image: "rhuss/pong:2"
+          imagePullPolicy: "IfNotPresent"
+          name: "spring-boot"
+          ports:
+          - containerPort: 8080
+            name: "http"
+            protocol: "TCP"
+          - containerPort: 9779
+            name: "prometheus"
+            protocol: "TCP"
+          - containerPort: 8778
+            name: "jolokia"
+            protocol: "TCP"
+          securityContext:
+            privileged: false
+    triggers:
+    - type: "ConfigChange"
