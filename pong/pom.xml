@@ -43,6 +43,13 @@
         <configuration>
           <mode>kubernetes</mode>
           <verbose>true</verbose>
+          <generator>
+            <config>
+              <spring-boot>
+                <name>rhuss/pong:${project.version}</name>
+              </spring-boot>
+            </config>
+          </generator>
         </configuration>
 
         <executions>

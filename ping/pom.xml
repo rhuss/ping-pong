@@ -63,7 +63,7 @@
           <verbose>true</verbose>
           <images>
             <image>
-              <name>fabric8/ping-fluentd-sidecar</name>
+              <name>rhuss/ping-fluentd-sidecar</name>
               <alias>fluentd</alias>
               <build>
                 <dockerFileDir>fluentd</dockerFileDir>
@@ -74,6 +74,7 @@
           <generator>
             <config>
               <spring-boot>
+                <name>rhuss/ping:${project.version}</name>
                 <enabled>true</enabled>
               </spring-boot>
             </config>
