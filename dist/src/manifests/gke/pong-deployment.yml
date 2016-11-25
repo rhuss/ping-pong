@@ -1,0 +1,46 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    provider: fabric8
+    project: pong
+    version: "2"
+    group: io.fabric8
+  name: pong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: pong
+      provider: fabric8
+      group: io.fabric8
+  template:
+    metadata:
+      labels:
+        provider: fabric8
+        project: pong
+        version: "2"
+        group: io.fabric8
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: rhuss/pong:2
+        imagePullPolicy: IfNotPresent
+        name: spring-boot
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9779
+          name: prometheus
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        securityContext:
+          privileged: false

@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    provider: fabric8
+    project: elasticsearch
+    version: 2.2.289
+    group: io.fabric8.devops.apps
+  name: elasticsearch-masters
+spec:
+  clusterIP: None
+  ports:
+  - name: discovery
+    port: 9300
+    protocol: TCP
+    targetPort: 9300
+  selector:
+    project: elasticsearch
+    provider: fabric8
+    group: io.fabric8.devops.apps

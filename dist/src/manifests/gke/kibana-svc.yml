@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    provider: fabric8
+    expose: "true"
+    project: kibana
+    version: 2.2.289
+    group: io.fabric8.devops.apps
+  name: kibana
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 5601
+  selector:
+    project: kibana
+    provider: fabric8
+    group: io.fabric8.devops.apps
+  type: LoadBalancer

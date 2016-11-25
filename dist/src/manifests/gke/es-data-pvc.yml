@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    provider: fabric8
+    project: elasticsearch
+    version: 2.2.289
+    group: io.fabric8.devops.apps
+  name: es-data
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

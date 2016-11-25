@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    provider: fabric8
+    expose: "true"
+    project: elasticsearch
+    version: 2.2.289
+    group: io.fabric8.devops.apps
+  name: elasticsearch
+spec:
+  ports:
+  - name: http
+    port: 9200
+    protocol: TCP
+    targetPort: 9200
+  selector:
+    project: elasticsearch
+    provider: fabric8
+    group: io.fabric8.devops.apps
