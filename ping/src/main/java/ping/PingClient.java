@@ -36,7 +36,7 @@ public class PingClient implements Runnable {
     @Value("${WAIT_MAX_SECONDS:3}")
     private int waitMaxSeconds;
 
-    @Value("${PONG_URL}:http//pong/pong")
+    @Value("${PONG_URL:http://pong/pong}")
     private String url;
 
     // ======================================================
