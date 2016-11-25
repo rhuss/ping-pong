@@ -20,8 +20,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <!-- ARM alternative: hypriot/rpi-java -->
-    <dmp.from>java:8-jre-alpine</dmp.from>
     <version.fabric8-maven-plugin>3.2.1</version.fabric8-maven-plugin>
   </properties>
 
@@ -75,6 +73,7 @@
             <config>
               <spring-boot>
                 <name>rhuss/ping:${project.version}</name>
+                <!-- Generator an image even if we already have one -->
                 <add>true</add>
               </spring-boot>
             </config>
