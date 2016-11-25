@@ -36,23 +36,18 @@ public class PingClient implements Runnable {
     @Value("${OPPONENT:pong}")
     private String opponent;
 
+    @Value("${OPPONENT_PORT:8080}")
+    private String port;
+
     @Value("${WAIT_MAX_SECONDS:3}")
     private int waitMaxSeconds;
 
+    // Create URL from service names
     private String getUrl() {
-        String srvAddress = "_http._tcp." + opponent + ".default.svc.cluster.local";
-        DnsSrvResolver dnsResolver = createDnsSrvResolver();
-        List<LookupResult> services = dnsResolver.resolve(srvAddress);
-        //log(AnsiColor.DEFAULT,"Lookup " + srvAddress + ": " + services);
-        if (services.size() !=  0) {
-            LookupResult result = services.get(0);;
-            return "http://" + result.host() + ":" + result.port() + "/" + opponent;
-        } else {
-            return null;
-        }
+        return String.format("http://%s:%s", opponent, port);
     }
 
-    // ====================================================== 
+    // ======================================================
     private String id;
 
     private static FluentLogger FLUENT_LOG = FluentLogger.getLogger("ping-pong");
@@ -61,7 +56,7 @@ public class PingClient implements Runnable {
     public void start() {
         id = createId();
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-        log(AnsiColor.GREEN, "Url via DNS: " + getUrl());
+        log(AnsiColor.GREEN, "Url " + getUrl());
 
         new Thread(this).start();
     }
@@ -215,4 +210,19 @@ public class PingClient implements Runnable {
         return AnsiOutput.toString(AnsiColor.RED, AnsiStyle.BOLD, "-- V2 -- ") +
                AnsiOutput.toString(AnsiColor.BRIGHT_GREEN, "[", id, "] ");
     }
+
+    private String getUrlViaDns() {
+        String srvAddress = "_http._tcp." + opponent + ".default.svc.cluster.local";
+        DnsSrvResolver dnsResolver = createDnsSrvResolver();
+        List<LookupResult> services = dnsResolver.resolve(srvAddress);
+        //log(AnsiColor.DEFAULT,"Lookup " + srvAddress + ": " + services);
+        if (services.size() !=  0) {
+            LookupResult result = services.get(0);;
+            return "http://" + result.host() + ":" + result.port() + "/" + opponent;
+        } else {
+            return null;
+        }
+    }
+
+
 }

@@ -17,7 +17,7 @@
   </parent>
 
   <properties>
-    <version.fabric8-maven-plugin>3.1-SNAPSHOT</version.fabric8-maven-plugin>
+    <version.fabric8-maven-plugin>3.2.1</version.fabric8-maven-plugin>
     <version.fabric8-devops>2.2.289</version.fabric8-devops>
   </properties>
 
