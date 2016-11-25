@@ -1,0 +1,100 @@
+
+= Installation
+
+== Minikube
+
+* Install a https://github.com/kubernetes/minikube/blob/v0.12.2/DRIVERS.md#driver-plugin-installation[VM Driver]. Options:
+  - Virtual Box
+  - https://github.com/kubernetes/minikube/blob/v0.12.2/DRIVERS.md#xhyve-driver[xhyve] for OS X
+  - HyperV for Windows
+
+* Download `minikube` from https://github.com/kubernetes/minikube/releases
+
+[source, shell]
+----
+minikube start
+----
+
+* Download `kubectl` from https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md#downloads-for-v146
+* Or (for OS X) :
+
+[source, shell]
+----
+curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.4.6/bin/darwin/amd64/kubectl
+chmod +x kubectl
+----
+
+Url Schema: `https://storage.googleapis.com/kubernetes-release/release/${K8S_VERSION}/bin/${GOOS}/${GOARCH}/${K8S_BINARY}`
+
+=== Tips
+
+* Login into back to cluster (context setup already by minikube)
+
+[source, shell]
+----
+kubectl config use-context minikube
+----
+
+* Setup environment to reuse the Docker daemon of Kubernetes (also needed for `mvn fabric8:build`)
+
+[source, shell]
+----
+eval $(minikube docker-env)
+----
+
+== Google Container Engine (GKE)
+
+* Goto https://console.cloud.google.com/home/dashboard?project=ms-summit-2016[GKE Console]
+* Select "Container Engine" --> "Create Container Cluster"
+  - 4 nodes, europe-west1-d
+
+* Connect:
+
+[source, shell]
+----
+gcloud container clusters get-credentials ms-summit-2016 \
+    --zone europe-west1-d --project ms-summit-2016
+----
+
+* K8s Dashboard
+
+[source, shell]
+----
+kubectl proxy &
+open http://localhost:8001/ui
+----
+
+* Create persistent disk:
+
+[source, shell]
+----
+gcloud compute disks create --size=1GB --zone=europe-west1-d es-data
+----
+
+== Raspberry Pi
+
+= Running
+
+== Minikube
+
+* Create persistent volume
+
+[source, shell]
+----
+kubectl create -f manifests/minikube/pv.yml
+----
+
+* Open Service
+
+[source, shell]
+----
+minikube service kibana
+----
+
+= Kibana Query
+
+* Select source "logstash-*" in left hand side pulldown
+* Click on "Available Fields" --> "looser" / "winner" for quick stats.
+* "Settings" --> "Indices" --> "Add New" --> "logstash-*"
+* "Visualize" --> "Pie Chart" --> "New Search" --> New Pattern "logstash-*" --> "Split Slice" --> Aggregation: Terms --> Field: "winner.raw"
+* "Add sub-buckets" --> Field: "nr_strokes"
