@@ -33,19 +33,11 @@ public class PingClient implements Runnable {
     @Value("${STRENGTH:2}")
     private int strength;
 
-    @Value("${OPPONENT:pong}")
-    private String opponent;
-
-    @Value("${OPPONENT_PORT:80}")
-    private String port;
-
     @Value("${WAIT_MAX_SECONDS:3}")
     private int waitMaxSeconds;
 
-    // Create URL from service names
-    private String getUrl() {
-        return String.format("http://%s:%s", opponent, port);
-    }
+    @Value("${PONG_URL}:http//pong/pong")
+    private String url;
 
     // ======================================================
     private String id;
@@ -56,7 +48,7 @@ public class PingClient implements Runnable {
     public void start() {
         id = createId();
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-        log(AnsiColor.GREEN, "Url " + getUrl());
+        log(AnsiColor.GREEN, "Url " + url);
 
         new Thread(this).start();
     }
@@ -74,7 +66,7 @@ public class PingClient implements Runnable {
                     while (result == null) {
                         nrStrokes++;
                         // Send HTTP request. Returns: <ID> <stroke>
-                        String response[] = request(getUrl() + "/" + id);
+                        String response[] = request(url + "/" + id);
                         Stroke stroke =
                             Stroke.valueOf(response[1].toUpperCase());
                         logResponse(response[0], stroke);
@@ -106,7 +98,7 @@ public class PingClient implements Runnable {
         if (stroke == MISSED) {
             // Yippie ! We won ...
             return new GameResult(id, opponentId, nrStrokes,
-	                          "ping", opponent);
+	                          "ping", "pong");
         } else {
             // Check whether we hit the ball ...
             Stroke myStroke = Stroke.play(strength);
@@ -114,7 +106,7 @@ public class PingClient implements Runnable {
             if (myStroke == MISSED) {
                 // Oh shit, we loose ...
                 return new GameResult(id, opponentId, nrStrokes,
-		                      opponent, "ping");
+		                      "pong", "ping");
             } else {
                 // Next round, please ...
                 return null;
@@ -196,7 +188,7 @@ public class PingClient implements Runnable {
             "==> " +
             AnsiOutput.toString(AnsiColor.BLUE,stroke);
         if (stroke == Stroke.HIT) {
-            logLine += " ==> " + AnsiOutput.toString(AnsiColor.BRIGHT_RED,opponent);
+            logLine += " ==> " + AnsiOutput.toString(AnsiColor.BRIGHT_RED, "pong");
         }
         System.out.println(logLine);
         System.out.flush();
@@ -207,18 +199,18 @@ public class PingClient implements Runnable {
     }
 
     private String formatId() {
-        return AnsiOutput.toString(AnsiColor.RED, AnsiStyle.BOLD, "-- V2 -- ") +
+        return AnsiOutput.toString(AnsiColor.RED, AnsiStyle.BOLD, "-- V3 -- ") +
                AnsiOutput.toString(AnsiColor.BRIGHT_GREEN, "[", id, "] ");
     }
 
     private String getUrlViaDns() {
-        String srvAddress = "_http._tcp." + opponent + ".default.svc.cluster.local";
+        String srvAddress = "_http._tcp.pong.default.svc.cluster.local";
         DnsSrvResolver dnsResolver = createDnsSrvResolver();
         List<LookupResult> services = dnsResolver.resolve(srvAddress);
         //log(AnsiColor.DEFAULT,"Lookup " + srvAddress + ": " + services);
         if (services.size() !=  0) {
             LookupResult result = services.get(0);;
-            return "http://" + result.host() + ":" + result.port() + "/" + opponent;
+            return "http://" + result.host() + ":" + result.port() + "/pong";
         } else {
             return null;
         }
