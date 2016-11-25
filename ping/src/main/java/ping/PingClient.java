@@ -36,7 +36,7 @@ public class PingClient implements Runnable {
     @Value("${OPPONENT:pong}")
     private String opponent;
 
-    @Value("${OPPONENT_PORT:8080}")
+    @Value("${OPPONENT_PORT:80}")
     private String port;
 
     @Value("${WAIT_MAX_SECONDS:3}")

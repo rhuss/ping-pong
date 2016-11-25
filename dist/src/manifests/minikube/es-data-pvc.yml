@@ -4,7 +4,6 @@ kind: PersistentVolumeClaim
 metadata:
   annotations:
     volume.beta.kubernetes.io/storage-class: standard
-    maven.fabric8.io/source-url: jar:file:/Users/roland/.m2/repository/io/fabric8/devops/apps/elasticsearch/2.2.289/elasticsearch-2.2.289.jar!/META-INF/fabric8/kubernetes.yml
   labels:
     provider: fabric8
     project: elasticsearch
