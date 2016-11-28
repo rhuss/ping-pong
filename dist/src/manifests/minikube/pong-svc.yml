@@ -19,4 +19,4 @@ spec:
     project: pong
     provider: fabric8
     group: io.fabric8
-  type: LoadBalancer
+  type: NodePort
