@@ -39,7 +39,7 @@ public class PingClient implements Runnable {
     @Value("${PONG_URL:http://pong/pong}")
     private String url;
 
-    @Value("${USE_FLUENTD}:true")
+    @Value("${USE_FLUENTD:true}")
     private boolean useFluentd;
 
     // ======================================================
