@@ -39,10 +39,13 @@ public class PingClient implements Runnable {
     @Value("${PONG_URL:http://pong/pong}")
     private String url;
 
+    @Value("${USE_FLUENTD}:true")
+    private boolean useFluentd;
+
     // ======================================================
     private String id;
 
-    private static FluentLogger FLUENT_LOG = FluentLogger.getLogger("ping-pong");
+    private static FluentLogger FLUENT_LOG;
 
     @PostConstruct
     public void start() {
@@ -50,6 +53,9 @@ public class PingClient implements Runnable {
         AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         log(AnsiColor.GREEN, "Url " + url);
 
+        if (useFluentd) {
+            FLUENT_LOG = FluentLogger.getLogger("ping-pong");
+        }
         new Thread(this).start();
     }
 
@@ -79,7 +85,9 @@ public class PingClient implements Runnable {
 
 
                     // Send to ElasticSearch via sidecar fluentd
-                    FLUENT_LOG.log("result", result.toData());
+                    if (useFluentd) {
+                        FLUENT_LOG.log("result", result.toData());
+                    }
 
                     waitABit(waitMaxSeconds);
                     resetConnectionPool();
