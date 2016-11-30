@@ -6,7 +6,6 @@
   <groupId>io.fabric8</groupId>
   <artifactId>dist</artifactId>
   <version>2</version>
-
   <name>dist</name>
 
   <parent>
