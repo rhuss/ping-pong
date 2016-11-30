@@ -27,7 +27,7 @@ chmod +x kubectl
 Url Schema: `https://storage.googleapis.com/kubernetes-release/release/${K8S_VERSION}/bin/${GOOS}/${GOARCH}/${K8S_BINARY}`
 
 * https://storage.googleapis.com/kubernetes-release/release/v1.4.6/bin/windows/amd64/kubectl.exe
-* https://storage.googleapis.com/kubernetes-release/release/v1.4.6/bin/linnux/amd64/kubectl
+* https://storage.googleapis.com/kubernetes-release/release/v1.4.6/bin/linux/amd64/kubectl
 
 === Tips
 
