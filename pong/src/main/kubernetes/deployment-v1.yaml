@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: pong
+  labels:
+    name: pong
+    project: ping-pong
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: pong
+        project: ping-pong
+    spec:
+      containers:
+      - image: "rhuss/pong:1"
+        name: pong
+        env:
+        - name: STRENGTH
+          value: "5"
+        readinessProbe:
+          httpGet:
+            host: localhost
+            port: 8080
+            path: /pong/123
+        # For demo:
+      terminationGracePeriodSeconds: 1
