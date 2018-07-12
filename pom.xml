@@ -20,15 +20,15 @@
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>docker-maven-plugin</artifactId>
-        <version>0.20.0</version>
+        <version>0.26.0</version>
         <configuration>
           <images>
             <image>
-              <name>rhuss/pong</name>
+              <name>rhuss/pong:${project.version}</name>
               <alias>pong</alias>
             </image>
             <image>
-              <name>rhuss/ping</name>
+              <name>rhuss/ping:${project.version}</name>
               <alias>ping</alias>
               <run>
                 <net>container:pong</net>
